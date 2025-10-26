@@ -307,7 +307,7 @@ with col1:
     st.markdown("Géoinformatique Avancée")
 with col2:
     st.markdown("**🤖 AI Powered**") 
-    st.markdown Génération Intelligente")
+    st.markdown("Génération Intelligente")
 with col3:
     st.markdown("**🌍 Multilingue**")
     st.markdown("Accessibilité Globale")
