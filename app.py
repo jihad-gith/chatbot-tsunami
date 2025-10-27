@@ -21,9 +21,6 @@ st.markdown("""
         text-align: center;
         margin-bottom: 1rem;
         font-weight: bold;
-        background: linear-gradient(135deg, #1e88e5, #0d47a1);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
     }
     .chat-container {
         background: white;
@@ -47,7 +44,6 @@ st.markdown("""
         border-radius: 12px;
         text-align: center;
         font-weight: bold;
-        box-shadow: 0 4px 12px rgba(255,82,82,0.3);
     }
     .question-btn {
         background: linear-gradient(135deg, #4caf50, #2e7d32);
@@ -91,15 +87,15 @@ LANGUAGES = {
     "🇸🇦 العربية": "ar"
 }
 
-# ==================== BASE DE CONNAISSANCES COMPLÈTE ====================
+# ==================== BASE DE CONNAISSANCES AMÉLIORÉE ====================
 
 KNOWLEDGE_BASE = {
     # ========== DÉFINITION ET CAUSES ==========
     "definition_tsunami": {
         "keywords": {
-            "fr": ["définition tsunami", "qu'est-ce qu'un tsunami", "c'est quoi tsunami"],
-            "en": ["tsunami definition", "what is tsunami", "define tsunami"],
-            "ar": ["تعريف تسونامي", "ما هو التسونامي", "ماهو تسونامي"]
+            "fr": ["définition", "qu'est-ce", "c'est quoi", "explique", "définir", "quoi", "tsunami"],
+            "en": ["definition", "what is", "explain", "define", "what", "tsunami"],
+            "ar": ["تعريف", "ما هو", "شرح", "ماهو", "ما", "تسونامي"]
         },
         "responses": {
             "fr": """
@@ -146,9 +142,9 @@ A **tsunami** (Japanese for "harbor wave") is a series of extremely long ocean w
     
     "difference_vague_tsunami": {
         "keywords": {
-            "fr": ["différence vague tsunami", "comparaison vague normale", "vague vs tsunami"],
-            "en": ["difference wave tsunami", "tsunami vs normal wave", "compare wave tsunami"],
-            "ar": ["فرق موجة تسونامي", "مقارنة موجة عادية", "موجة مقابل تسونامي"]
+            "fr": ["différence", "comparaison", "vague normale", "vague vs tsunami", "différent"],
+            "en": ["difference", "compare", "normal wave", "wave vs tsunami", "different"],
+            "ar": ["فرق", "مقارنة", "موجة عادية", "موجة مقابل تسونامي", "مختلف"]
         },
         "responses": {
             "fr": """
@@ -198,9 +194,9 @@ A **tsunami** (Japanese for "harbor wave") is a series of extremely long ocean w
     
     "causes_principales": {
         "keywords": {
-            "fr": ["causes principales tsunami", "origines tsunami", "pourquoi tsunami"],
-            "en": ["main causes tsunami", "tsunami origins", "why tsunami"],
-            "ar": ["أسباب رئيسية تسونامي", "مصادر تسونامي", "لماذا تسونامي"]
+            "fr": ["causes", "origines", "pourquoi", "provoque", "cause tsunami", "origine tsunami"],
+            "en": ["causes", "origins", "why", "cause", "tsunami causes", "tsunami origins"],
+            "ar": ["أسباب", "مصادر", "لماذا", "يتسبب", "أسباب تسونامي", "مصادر تسونامي"]
         },
         "responses": {
             "fr": """
@@ -277,9 +273,9 @@ A **tsunami** (Japanese for "harbor wave") is a series of extremely long ocean w
     
     "seisme_tsunami": {
         "keywords": {
-            "fr": ["séisme provoquer tsunami", "comment séisme tsunami", "mécanisme séisme tsunami"],
-            "en": ["earthquake cause tsunami", "how earthquake tsunami", "mechanism earthquake tsunami"],
-            "ar": ["زلزال يتسبب تسونامي", "كيف زلزال تسونامي", "آلية زلزال تسونامي"]
+            "fr": ["séisme", "tremblement de terre", "comment séisme", "mécanisme séisme", "séisme provoque"],
+            "en": ["earthquake", "how earthquake", "mechanism earthquake", "earthquake causes"],
+            "ar": ["زلزال", "كيف زلزال", "آلية زلزال", "زلزال يتسبب"]
         },
         "responses": {
             "fr": """
@@ -377,9 +373,9 @@ A **tsunami** (Japanese for "harbor wave") is a series of extremely long ocean w
     
     "volcan_glissement_tsunami": {
         "keywords": {
-            "fr": ["volcan tsunami", "glissement terrain tsunami", "éruption tsunami"],
-            "en": ["volcano tsunami", "landslide tsunami", "eruption tsunami"],
-            "ar": ["بركان تسونامي", "انهيار أرضي تسونامي", "ثوران تسونامي"]
+            "fr": ["volcan", "volcanique", "glissement", "éruption", "volcan tsunami", "glissement terrain"],
+            "en": ["volcano", "volcanic", "landslide", "eruption", "volcano tsunami", "landslide tsunami"],
+            "ar": ["بركان", "بركاني", "انهيار", "ثوران", "بركان تسونامي", "انهيار أرضي"]
         },
         "responses": {
             "fr": """
@@ -468,9 +464,9 @@ A **tsunami** (Japanese for "harbor wave") is a series of extremely long ocean w
     
     "signes_precurseurs": {
         "keywords": {
-            "fr": ["signes précurseurs tsunami", "signes avant tsunami", "alerte naturelle tsunami"],
-            "en": ["tsunami warning signs", "natural signs tsunami", "tsunami precursors"],
-            "ar": ["علامات إنذار تسونامي", "علامات قبل تسونامي", "إنذار طبيعي تسونامي"]
+            "fr": ["signes", "précurseurs", "alerte", "avant tsunami", "signes avant", "reconnaître"],
+            "en": ["signs", "warning", "alert", "before tsunami", "warning signs", "recognize"],
+            "ar": ["علامات", "إنذار", "قبل تسونامي", "علامات إنذار", "يتعرف"]
         },
         "responses": {
             "fr": """
@@ -569,9 +565,9 @@ A **tsunami** (Japanese for "harbor wave") is a series of extremely long ocean w
     # ========== CONSÉQUENCES ==========
     "consequences_humaines": {
         "keywords": {
-            "fr": ["conséquences humaines tsunami", "victimes tsunami", "morts tsunami"],
-            "en": ["human consequences tsunami", "tsunami victims", "tsunami deaths"],
-            "ar": ["عواقب بشرية تسونامي", "ضحايا تسونامي", "وفيات تسونامي"]
+            "fr": ["conséquences humaines", "victimes", "morts", "décès", "impact humain"],
+            "en": ["human consequences", "victims", "deaths", "human impact"],
+            "ar": ["عواقب بشرية", "ضحايا", "وفيات", "تأثير بشري"]
         },
         "responses": {
             "fr": """
@@ -653,315 +649,47 @@ A **tsunami** (Japanese for "harbor wave") is a series of extremely long ocean w
 - تثقيف السكان
             """
         }
-    },
-    
-    "impacts_economiques": {
-        "keywords": {
-            "fr": ["impacts économiques tsunami", "coût économique tsunami", "pertes économiques"],
-            "en": ["economic impacts tsunami", "tsunami economic cost", "economic losses"],
-            "ar": ["آثار اقتصادية تسونامي", "تكلفة اقتصادية تسونامي", "خسائر اقتصادية"]
-        },
-        "responses": {
-            "fr": """
-**💰 IMPACTS ÉCONOMIQUES DES TSUNAMIS**
-
-**COÛTS DIRECTS :**
-
-**1. INFRASTRUCTURES DÉTRUITES**
-- Ports et installations côtières
-- Routes et ponts
-- Réseaux électriques et eau
-
-**2. PERTES SECTORIELLES**
-- **Pêche** : Bateaux, équipements détruits
-- **Tourisme** : Arrêt complet de l'activité
-- **Agriculture** : Terres salinisées
-
-**COÛTS INDIRECTS :**
-
-**1. RECONSTRUCTION**
-- Coût des travaux de reconstruction
-- Relogement des populations
-- Durée : 5-10 ans minimum
-
-**2. PERTES À LONG TERME**
-- Dette nationale augmentée
-- Croissance économique ralentie
-- Chômage accru
-
-**EXEMPLES DE COÛTS :**
-- **Japon 2011** : 235 milliards USD
-- **Indonésie 2004** : 4.5 milliards USD
-- **Moyenne** : 10-50 milliards USD par grand tsunami
-            """,
-            "en": """
-**💰 ECONOMIC IMPACTS OF TSUNAMIS**
-
-**DIRECT COSTS:**
-
-**1. DESTROYED INFRASTRUCTURE**
-- Ports and coastal facilities
-- Roads and bridges
-- Power and water networks
-
-**2. SECTORAL LOSSES**
-- **Fishing**: Boats, equipment destroyed
-- **Tourism**: Complete activity stop
-- **Agriculture**: Salinized lands
-
-**INDIRECT COSTS:**
-
-**1. RECONSTRUCTION**
-- Reconstruction work costs
-- Population relocation
-- Duration: 5-10 years minimum
-
-**2. LONG-TERM LOSSES**
-- Increased national debt
-- Slowed economic growth
-- Increased unemployment
-
-**COST EXAMPLES:**
-- **Japan 2011**: 235 billion USD
-- **Indonesia 2004**: 4.5 billion USD
-- **Average**: 10-50 billion USD per major tsunami
-            """,
-            "ar": """
-**💰 الآثار الاقتصادية للتسونامي**
-
-**التكاليف المباشرة:**
-
-**1. البنى التحتية المدمرة**
-- الموانئ والمرافق الساحلية
-- الطرق والجسور
-- شبكات الكهرباء والماء
-
-**2. الخسائر القطاعية**
-- **الصيد**: تدمير القوارب والمعدات
-- **السياحة**: توقف كامل للنشاط
-- **الزراعة**: أراضي مملحة
-
-**التكاليف غير المباشرة:**
-
-**1. إعادة الإعمار**
-- تكاليف أعمال إعادة الإعمار
-- إعادة توطين السكان
-- المدة: 5-10 سنوات كحد أدنى
-
-**2. الخسائر طويلة الأجل**
-- زيادة الديون الوطنية
-- تباطؤ النمو الاقتصادي
-- زيادة البطالة
-
-**أمثلة التكاليف:**
-- **اليابان 2011**: 235 مليار دولار
-- **إندونيسيا 2004**: 4.5 مليار دولار
-- **المتوسط**: 10-50 مليار دولار لكل تسونامي كبير
-            """
-        }
-    },
-    
-    # ========== EXEMPLES HISTORIQUES ==========
-    "tsunami_2004": {
-        "keywords": {
-            "fr": ["tsunami 2004", "océan indien 2004", "sumatra 2004"],
-            "en": ["2004 tsunami", "indian ocean 2004", "sumatra 2004"],
-            "ar": ["تسونامي 2004", "المحيط الهندي 2004", "سومطرة 2004"]
-        },
-        "responses": {
-            "fr": """
-**🌊 TSUNAMI DE L'OCÉAN INDIEN 2004**
-
-**CARACTÉRISTIQUES :**
-- **Date** : 26 décembre 2004
-- **Épicentre** : Au large de Sumatra, Indonésie
-- **Magnitude** : 9.1-9.3 (3ème plus fort jamais enregistré)
-- **Pays touchés** : 14 pays
-
-**IMPACT HUMAIN :**
-- **Morts** : 230,000 à 280,000 personnes
-- **Blessés** : Plus de 125,000
-- **Déplacés** : 1.7 million de personnes
-
-**DÉTAILS :**
-- Vagues jusqu'à 30m de haut
-- Durée : 7-8 heures de vagues successives
-- Distance parcourue : 5,000 km
-- Temps d'arrivée : 15 min (Indonésie) à 7h (Afrique)
-
-**LEÇONS APPRISES :**
-- Création du système d'alerte de l'océan Indien
-- Meilleure coordination internationale
-- Importance de l'éducation publique
-            """,
-            "en": """
-**🌊 2004 INDIAN OCEAN TSUNAMI**
-
-**CHARACTERISTICS:**
-- **Date**: December 26, 2004
-- **Epicenter**: Off coast of Sumatra, Indonesia
-- **Magnitude**: 9.1-9.3 (3rd strongest ever recorded)
-- **Affected countries**: 14 countries
-
-**HUMAN IMPACT:**
-- **Deaths**: 230,000 to 280,000 people
-- **Injured**: Over 125,000
-- **Displaced**: 1.7 million people
-
-**DETAILS:**
-- Waves up to 30m high
-- Duration: 7-8 hours of successive waves
-- Distance traveled: 5,000 km
-- Arrival time: 15 min (Indonesia) to 7h (Africa)
-
-**LESSONS LEARNED:**
-- Creation of Indian Ocean warning system
-- Better international coordination
-- Importance of public education
-            """,
-            "ar": """
-**🌊 تسونامي المحيط الهندي 2004**
-
-**الخصائص:**
-- **التاريخ**: 26 ديسمبر 2004
-- **المركز**: قبالة سواحل سومطرة، إندونيسيا
-- **القوة**: 9.1-9.3 (ثالث أقوى زلزال مسجل)
-- **الدول المتضررة**: 14 دولة
-
-**التأثير البشري:**
-- **الوفيات**: 230,000 إلى 280,000 شخص
-- **المصابون**: أكثر من 125,000
-- **النازحون**: 1.7 مليون شخص
-
-**التفاصيل:**
-- أمواج حتى 30م ارتفاعًا
-- المدة: 7-8 ساعات من أمواج متتالية
-- المسافة المقطوعة: 5,000 كم
-- وقت الوصول: 15 دقيقة (إندونيسيا) إلى 7 ساعات (أفريقيا)
-
-**الدروس المستفادة:**
-- إنشاء نظام إنذار المحيط الهندي
-- تنسيق دولي أفضل
-- أهمية التوعية العامة
-            """
-        }
-    },
-    
-    "japon_2011": {
-        "keywords": {
-            "fr": ["japon 2011", "tsunami japon 2011", "fukushima 2011"],
-            "en": ["japan 2011", "2011 japan tsunami", "fukushima 2011"],
-            "ar": ["اليابان 2011", "تسونامي اليابان 2011", "فوكوشيما 2011"]
-        },
-        "responses": {
-            "fr": """
-**🇯🇵 TSUNAMI DU JAPON 2011**
-
-**CARACTÉRISTIQUES :**
-- **Date** : 11 mars 2011
-- **Nom** : "Grand séisme de l'Est du Japon"
-- **Magnitude** : 9.0-9.1
-- **Épicentre** : 70 km à l'est de Sendai
-
-**IMPACT DU TSUNAMI :**
-- **Hauteur maximale** : 40.5 mètres (record au Japon)
-- **Pénétration terres** : Jusqu'à 10 km à l'intérieur
-- **Durée** : Vagues pendant plus de 24 heures
-
-**CONSÉQUENCES :**
-- **Morts confirmés** : 15,899
-- **Disparus** : 2,527
-- **Déplacés** : 340,000 personnes
-
-**CATASTROPHE NUCLÉAIRE :**
-- **Centrale Fukushima Daiichi** : 3 réacteurs fusionnés
-- **Évacuation** : Zone de 20 km
-- **Impact environnemental** : Rejets radioactifs
-
-**RÉPONSE INTERNATIONALE :**
-- Aide humanitaire mondiale
-- Revues de sécurité nucléaire
-- Amélioration des normes
-            """,
-            "en": """
-**🇯🇵 2011 JAPAN TSUNAMI**
-
-**CHARACTERISTICS:**
-- **Date**: March 11, 2011
-- **Name**: "Great East Japan Earthquake"
-- **Magnitude**: 9.0-9.1
-- **Epicenter**: 70 km east of Sendai
-
-**TSUNAMI IMPACT:**
-- **Maximum height**: 40.5 meters (Japan record)
-- **Land penetration**: Up to 10 km inland
-- **Duration**: Waves for over 24 hours
-
-**CONSEQUENCES:**
-- **Confirmed deaths**: 15,899
-- **Missing**: 2,527
-- **Displaced**: 340,000 people
-
-**NUCLEAR DISASTER:**
-- **Fukushima Daiichi plant**: 3 melted reactors
-- **Evacuation**: 20 km zone
-- **Environmental impact**: Radioactive releases
-
-**INTERNATIONAL RESPONSE:**
-- Global humanitarian aid
-- Nuclear safety reviews
-- Improved standards
-            """,
-            "ar": """
-**🇯🇵 تسونامي اليابان 2011**
-
-**الخصائص:**
-- **التاريخ**: 11 مارس 2011
-- **الاسم**: "زلزال شرق اليابان الكبير"
-- **القوة**: 9.0-9.1
-- **المركز**: 70 كم شرق سينداي
-
-**تأثير التسونامي:**
-- **الارتفاع الأقصى**: 40.5 متر (رقم قياسي في اليابان)
-- **اختراق اليابسة**: حتى 10 كم داخل اليابسة
-- **المدة**: أمواج لأكثر من 24 ساعة
-
-**العواقب:**
-- **الوفيات المؤكدة**: 15,899
-- **المفقودون**: 2,527
-- **النازحون**: 340,000 شخص
-
-**الكارثة النووية:**
-- **محطة فوكوشيما داييتشي**: 3 مفاعلات منصهرة
-- **الإخلاء**: منطقة 20 كم
-- **التأثير البيئي**: إطلاقات مشعة
-
-**الاستجابة الدولية:**
-- مساعدة إنسانية عالمية
-- مراجعات السلامة النووية
-- تحسين المعايير
-            """
-        }
     }
 }
 
-# ==================== FONCTION DE RECHERCHE ====================
+# ==================== FONCTION DE RECHERCHE AMÉLIORÉE ====================
 
 def find_response(user_input, language):
-    """Trouve la réponse la plus pertinente"""
+    """Trouve la réponse la plus pertinente avec reconnaissance améliorée"""
     user_input_lower = user_input.lower()
     
-    # Recherche par catégorie
+    # Recherche améliorée - vérifie chaque mot-clé individuellement
+    best_match = None
+    best_score = 0
+    
     for category, data in KNOWLEDGE_BASE.items():
+        score = 0
         for keyword in data["keywords"][language]:
             if keyword in user_input_lower:
-                return data["responses"][language]
+                score += 1
+        
+        if score > best_score:
+            best_score = score
+            best_match = category
+    
+    # Si on a trouvé une bonne correspondance
+    if best_score >= 1:
+        return KNOWLEDGE_BASE[best_match]["responses"][language]
+    
+    # Recherche de secours avec mots individuels
+    for category, data in KNOWLEDGE_BASE.items():
+        for keyword in data["keywords"][language]:
+            # Vérifie si des mots individuels correspondent
+            words = user_input_lower.split()
+            for word in words:
+                if word in keyword or keyword in word:
+                    return data["responses"][language]
     
     # Réponse par défaut
     default_responses = {
-        "fr": "Je suis l'expert Tsunami. Posez-moi des questions sur : définition, causes, conséquences, exemples historiques, prévention, ou science des tsunamis.",
-        "en": "I'm the Tsunami expert. Ask me about: definition, causes, consequences, historical examples, prevention, or tsunami science.",
-        "ar": "أنا خبير التسونامي. اسألني عن: التعريف، الأسباب، العواقب، الأمثلة التاريخية، الوقاية، أو علم التسونامي."
+        "fr": "🤖 **Expert Tsunami** - Je n'ai pas compris votre question. Essayez avec : définition, causes, séisme, volcan, conséquences, ou signes avant-coureurs.",
+        "en": "🤖 **Tsunami Expert** - I didn't understand your question. Try with: definition, causes, earthquake, volcano, consequences, or warning signs.",
+        "ar": "🤖 **خبير التسونامي** - لم أفهم سؤالك. جرب مع: تعريف، أسباب، زلزال، بركان، عواقب، أو علامات إنذار."
     }
     return default_responses[language]
 
@@ -981,52 +709,49 @@ st.markdown('<div class="main-header">🌊 Expert Tsunami</div>', unsafe_allow_h
 with st.sidebar:
     st.markdown("### 🌍 Langue")
     selected_language = st.radio("", list(LANGUAGES.keys()), label_visibility="collapsed")
-    current_lang = LANGUAGES[selected_language]  # CORRECTION ICI : selected_language au lieu de selected_lang
+    current_lang = LANGUAGES[selected_language]
     
     # Questions par catégorie
     categories = {
         "fr": {
             "definition": "📚 Définition et Causes",
-            "consequences": "💥 Conséquences", 
-            "historique": "📜 Exemples Historiques"
+            "consequences": "💥 Conséquences"
         },
         "en": {
-            "definition": "📚 Definition and Causes",
-            "consequences": "💥 Consequences",
-            "historique": "📜 Historical Examples" 
+            "definition": "📚 Definition and Causes", 
+            "consequences": "💥 Consequences"
         },
         "ar": {
             "definition": "📚 التعريف والأسباب",
-            "consequences": "💥 العواقب",
-            "historique": "📜 أمثلة تاريخية"
+            "consequences": "💥 العواقب"
         }
     }
     
     questions_by_category = {
         "definition": {
             "fr": [
-                "Définition tsunami",
-                "Différence vague tsunami", 
+                "Qu'est-ce qu'un tsunami ?",
+                "Différence avec vague normale", 
                 "Causes principales",
-                "Séisme provoque tsunami",
-                "Volcan glissement tsunami",
-                "Signes précurseurs"
+                "Comment un séisme provoque un tsunami",
+                "Tsunamis volcaniques et glissements",
+                "Signes avant-coureurs"
             ],
             "en": [
-                "Tsunami definition",
-                "Difference wave tsunami",
+                "What is a tsunami?",
+                "Difference with normal wave",
                 "Main causes",
-                "Earthquake cause tsunami", 
-                "Volcano landslide tsunami",
+                "How earthquake causes tsunami", 
+                "Volcanic and landslide tsunamis",
                 "Warning signs"
             ],
             "ar": [
-                "تعريف تسونامي",
-                "فرق موجة تسونامي",
-                "أسباب رئيسية",
-                "زلزال يتسبب تسونامي",
-                "بركان انهيار تسونامي", 
-                "علامات إنذار"
+                "ما هو التسونامي؟",
+                "الفرق مع الموجة العادية",
+                "الأسباب الرئيسية",
+                "كيف يتسبب الزلزال في تسونامي",
+                "تسونامي البراكين والانهيارات", 
+                "علامات الإنذار"
             ]
         },
         "consequences": {
@@ -1039,22 +764,8 @@ with st.sidebar:
                 "Economic impacts"
             ],
             "ar": [
-                "عواقب بشرية",
-                "آثار اقتصادية"
-            ]
-        },
-        "historique": {
-            "fr": [
-                "Tsunami 2004",
-                "Japon 2011"
-            ],
-            "en": [
-                "2004 tsunami",
-                "Japan 2011"
-            ],
-            "ar": [
-                "تسونامي 2004",
-                "اليابان 2011"
+                "العواقب البشرية",
+                "الآثار الاقتصادية"
             ]
         }
     }
@@ -1076,9 +787,9 @@ st.markdown('<div class="chat-container">', unsafe_allow_html=True)
 # Historique de conversation
 if "messages" not in st.session_state:
     welcome_messages = {
-        "fr": "🌊 **Expert Tsunami** - Je peux répondre à toutes vos questions sur les tsunamis : définition, causes, conséquences, exemples historiques, prévention et science.",
-        "en": "🌊 **Tsunami Expert** - I can answer all your questions about tsunamis: definition, causes, consequences, historical examples, prevention and science.", 
-        "ar": "🌊 **خبير التسونامي** - يمكنني الإجابة على جميع أسئلتك عن التسونامي: التعريف، الأسباب، العواقب، الأمثلة التاريخية، الوقاية والعلم."
+        "fr": "🌊 **Expert Tsunami** - Je peux répondre à vos questions sur : définition, causes, conséquences des tsunamis. Utilisez les boutons ou tapez vos questions !",
+        "en": "🌊 **Tsunami Expert** - I can answer your questions about: definition, causes, consequences of tsunamis. Use buttons or type your questions!", 
+        "ar": "🌊 **خبير التسونامي** - يمكنني الإجابة على أسئلتك عن: تعريف، أسباب، عواقب التسونامي. استخدم الأزرار أو اكتب أسئلتك!"
     }
     st.session_state.messages = [
         {"role": "assistant", "content": welcome_messages[current_lang]}
