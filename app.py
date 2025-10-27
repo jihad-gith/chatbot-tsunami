@@ -69,7 +69,44 @@ LANGUAGES = {
     "🇸🇦 العربية": "ar"
 }
 
-# ==================== BASE DE CONNAISSANCES SIMPLE ====================
+# ==================== GÉNÉRATION D'IMAGES ====================
+
+def create_tsunami_image(language):
+    """Crée une image simple de tsunami"""
+    img = Image.new('RGB', (600, 400), color=(135, 206, 235))  # Ciel bleu
+    d = ImageDraw.Draw(img)
+    
+    # Océan
+    d.rectangle([0, 250, 600, 400], fill=(0, 105, 148))  # Bleu océan
+    
+    # Vague tsunami
+    d.ellipse([100, 200, 500, 350], outline=(255, 255, 255), fill=(30, 144, 255), width=3)
+    
+    # Texte selon la langue
+    texts = {
+        "fr": "VAGUE TSUNAMI",
+        "en": "TSUNAMI WAVE", 
+        "ar": "موجة تسونامي"
+    }
+    
+    d.text((300, 100), texts[language], fill=(0, 0, 0), anchor="mm")
+    d.text((300, 350), "⚠️ DANGER - RESTEZ À DISTANCE", fill=(255, 0, 0), anchor="mm")
+    
+    # Convertir en base64
+    buffered = io.BytesIO()
+    img.save(buffered, format="PNG")
+    return base64.b64encode(buffered.getvalue()).decode()
+
+def display_image(base64_string):
+    """Affiche une image"""
+    try:
+        image_data = base64.b64decode(base64_string)
+        image = Image.open(io.BytesIO(image_data))
+        st.image(image, use_container_width=True)
+    except:
+        st.write("🖼️ Image générée")
+
+# ==================== BASE DE CONNAISSANCES ====================
 
 KNOWLEDGE_BASE = {
     "definition": {
@@ -299,28 +336,56 @@ A tsunami is a series of giant ocean waves caused by the sudden displacement of 
 **الطوارئ: 112 / 911 / 999**
             """
         }
+    },
+    
+    "image": {
+        "keywords": {
+            "fr": ["image", "photo", "voir", "montre", "affiche", "visuel"],
+            "en": ["image", "picture", "show", "see", "display", "visual"],
+            "ar": ["صورة", "رؤية", "عرض", "أظهر", "شكل", "مرئي"]
+        },
+        "responses": {
+            "fr": "🖼️ **Voici une illustration d'un tsunami :**",
+            "en": "🖼️ **Here is a tsunami illustration:**",
+            "ar": "🖼️ **ها هي صورة توضيحية للتسونامي:**"
+        }
     }
 }
 
-# ==================== FONCTION DE RECHERCHE SIMPLE ====================
+# ==================== FONCTION DE RECHERCHE AVEC IMAGES ====================
 
 def find_response(user_input, language):
-    """Trouve la réponse la plus pertinente"""
+    """Trouve la réponse et génère une image si demandé"""
     user_input_lower = user_input.lower()
     
-    # Recherche simple par mots-clés
+    # Vérifier si l'utilisateur demande une image
+    wants_image = any(keyword in user_input_lower for keyword in KNOWLEDGE_BASE["image"]["keywords"][language])
+    
+    # Recherche par catégorie
     for category, data in KNOWLEDGE_BASE.items():
+        if category == "image":
+            continue  # On gère les images séparément
+            
         for keyword in data["keywords"][language]:
             if keyword in user_input_lower:
-                return data["responses"][language]
+                if wants_image:
+                    image_data = create_tsunami_image(language)
+                    return data["responses"][language], image_data
+                else:
+                    return data["responses"][language], None
+    
+    # Si demande d'image seule
+    if wants_image:
+        image_data = create_tsunami_image(language)
+        return KNOWLEDGE_BASE["image"]["responses"][language], image_data
     
     # Réponse par défaut
     default_responses = {
-        "fr": "Posez-moi une question sur : définition, causes, conséquences, ou comment réagir face à un tsunami.",
-        "en": "Ask me about: definition, causes, consequences, or how to react to tsunami.",
-        "ar": "اسألني عن: التعريف، الأسباب، العواقب، أو كيفية التفاعل مع التسونامي."
+        "fr": "Posez-moi une question sur : définition, causes, conséquences, comment réagir, ou demandez une image de tsunami.",
+        "en": "Ask me about: definition, causes, consequences, how to react, or request a tsunami image.",
+        "ar": "اسألني عن: التعريف، الأسباب، العواقب، كيفية التفاعل، أو اطلب صورة تسونامي."
     }
-    return default_responses[language]
+    return default_responses[language], None
 
 def display_text(text, language):
     """Affiche le texte avec la bonne direction"""
@@ -329,7 +394,7 @@ def display_text(text, language):
     else:
         st.markdown(text)
 
-# ==================== INTERFACE SIMPLE ====================
+# ==================== INTERFACE ====================
 
 # Titre simple
 st.markdown('<div class="main-header">🌊 Tsunami Guard</div>', unsafe_allow_html=True)
@@ -347,19 +412,22 @@ with st.sidebar:
             "Définition tsunami",
             "Causes tsunami",
             "Conséquences tsunami", 
-            "Que faire tsunami"
+            "Que faire tsunami",
+            "Image tsunami"
         ],
         "en": [
             "Tsunami definition",
             "Tsunami causes",
             "Tsunami consequences",
-            "What to do tsunami"
+            "What to do tsunami",
+            "Tsunami image"
         ],
         "ar": [
             "تعريف تسونامي",
             "أسباب تسونامي",
             "عواقب تسونامي",
-            "ماذا أفعل تسونامي"
+            "ماذا أفعل تسونامي",
+            "صورة تسونامي"
         ]
     }
     
@@ -377,18 +445,20 @@ st.markdown('<div class="chat-container">', unsafe_allow_html=True)
 # Historique de conversation
 if "messages" not in st.session_state:
     welcome_messages = {
-        "fr": "🌊 **Tsunami Guard** - Posez-moi vos questions sur les tsunamis.",
-        "en": "🌊 **Tsunami Guard** - Ask me your questions about tsunamis.", 
-        "ar": "🌊 **حارس التسونامي** - اسألني أسئلتك عن التسونامي."
+        "fr": "🌊 **Tsunami Guard** - Posez-moi vos questions sur les tsunamis. Demandez 'image' pour voir une illustration !",
+        "en": "🌊 **Tsunami Guard** - Ask me your questions about tsunamis. Request 'image' to see an illustration!", 
+        "ar": "🌊 **حارس التسونامي** - اسألني أسئلتك عن التسونامي. اطلب 'صورة' لترى رسمًا توضيحيًا!"
     }
     st.session_state.messages = [
-        {"role": "assistant", "content": welcome_messages[current_lang]}
+        {"role": "assistant", "content": welcome_messages[current_lang], "image_data": None}
     ]
 
 # Affichage de l'historique
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         display_text(message["content"], current_lang)
+        if message.get("image_data"):
+            display_image(message["image_data"])
 
 # Gestion des questions automatiques
 if "auto_question" in st.session_state:
@@ -404,15 +474,16 @@ if prompt or (user_input := st.chat_input("💬 Posez votre question...")):
         prompt = user_input
     
     # Ajout du message utilisateur
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.messages.append({"role": "user", "content": prompt, "image_data": None})
     
     # Génération de la réponse
-    response = find_response(prompt, current_lang)
+    response, image_data = find_response(prompt, current_lang)
     
     # Ajout de la réponse
     st.session_state.messages.append({
         "role": "assistant", 
-        "content": response
+        "content": response,
+        "image_data": image_data
     })
     
     st.rerun()
