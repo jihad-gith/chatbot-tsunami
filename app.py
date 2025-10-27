@@ -7,56 +7,78 @@ import time
 
 # Configuration de la page
 st.set_page_config(
-    page_title="🌊 Tsunami Guard", 
+    page_title="🌊 Tsunami Expert", 
     page_icon="🌊", 
     layout="wide"
 )
 
-# ==================== STYLE SIMPLE ====================
+# ==================== STYLE MODERNE ====================
 st.markdown("""
 <style>
     .main-header {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
         color: #1e88e5;
         text-align: center;
         margin-bottom: 1rem;
         font-weight: bold;
+        background: linear-gradient(135deg, #1e88e5, #0d47a1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
     .chat-container {
         background: white;
-        padding: 20px;
-        border-radius: 10px;
+        padding: 25px;
+        border-radius: 15px;
         margin-bottom: 20px;
         border: 1px solid #e0e0e0;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     .sidebar-content {
         background: #f8f9fa;
-        padding: 15px;
-        border-radius: 10px;
-        margin: 10px 0;
+        padding: 20px;
+        border-radius: 12px;
+        margin: 12px 0;
+        border-left: 4px solid #1e88e5;
     }
     .emergency-box {
-        background: #ff4444;
+        background: linear-gradient(135deg, #ff5252, #d32f2f);
         color: white;
-        padding: 15px;
-        border-radius: 10px;
+        padding: 18px;
+        border-radius: 12px;
         text-align: center;
         font-weight: bold;
+        box-shadow: 0 4px 12px rgba(255,82,82,0.3);
     }
     .question-btn {
-        background: #4CAF50;
+        background: linear-gradient(135deg, #4caf50, #2e7d32);
         color: white;
         border: none;
-        padding: 10px 15px;
-        border-radius: 8px;
-        margin: 5px 0;
+        padding: 12px 18px;
+        border-radius: 10px;
+        margin: 6px 0;
         width: 100%;
         cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 600;
+        font-size: 0.9em;
+        text-align: left;
+    }
+    .question-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(76,175,80,0.3);
     }
     .arabic-text {
         direction: rtl;
         text-align: right;
-        line-height: 1.6;
+        line-height: 1.8;
+        font-size: 1.05em;
+    }
+    .category-header {
+        color: #1e88e5;
+        border-bottom: 2px solid #1e88e5;
+        padding-bottom: 8px;
+        margin-top: 20px;
+        font-weight: bold;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -69,323 +91,879 @@ LANGUAGES = {
     "🇸🇦 العربية": "ar"
 }
 
-# ==================== GÉNÉRATION D'IMAGES ====================
-
-def create_tsunami_image(language):
-    """Crée une image simple de tsunami"""
-    img = Image.new('RGB', (600, 400), color=(135, 206, 235))  # Ciel bleu
-    d = ImageDraw.Draw(img)
-    
-    # Océan
-    d.rectangle([0, 250, 600, 400], fill=(0, 105, 148))  # Bleu océan
-    
-    # Vague tsunami
-    d.ellipse([100, 200, 500, 350], outline=(255, 255, 255), fill=(30, 144, 255), width=3)
-    
-    # Texte selon la langue
-    texts = {
-        "fr": "VAGUE TSUNAMI",
-        "en": "TSUNAMI WAVE", 
-        "ar": "موجة تسونامي"
-    }
-    
-    d.text((300, 100), texts[language], fill=(0, 0, 0), anchor="mm")
-    d.text((300, 350), "⚠️ DANGER - RESTEZ À DISTANCE", fill=(255, 0, 0), anchor="mm")
-    
-    # Convertir en base64
-    buffered = io.BytesIO()
-    img.save(buffered, format="PNG")
-    return base64.b64encode(buffered.getvalue()).decode()
-
-def display_image(base64_string):
-    """Affiche une image"""
-    try:
-        image_data = base64.b64decode(base64_string)
-        image = Image.open(io.BytesIO(image_data))
-        st.image(image, use_container_width=True)
-    except:
-        st.write("🖼️ Image générée")
-
-# ==================== BASE DE CONNAISSANCES ====================
+# ==================== BASE DE CONNAISSANCES COMPLÈTE ====================
 
 KNOWLEDGE_BASE = {
-    "definition": {
+    # ========== DÉFINITION ET CAUSES ==========
+    "definition_tsunami": {
         "keywords": {
-            "fr": ["définition", "qu'est-ce", "c'est quoi", "explique", "définir"],
-            "en": ["definition", "what is", "explain", "define"],
-            "ar": ["تعريف", "ما هو", "شرح"]
+            "fr": ["définition tsunami", "qu'est-ce qu'un tsunami", "c'est quoi tsunami"],
+            "en": ["tsunami definition", "what is tsunami", "define tsunami"],
+            "ar": ["تعريف تسونامي", "ما هو التسونامي", "ماهو تسونامي"]
         },
         "responses": {
             "fr": """
 **🌊 DÉFINITION DU TSUNAMI**
 
-Un tsunami est une série de vagues océaniques géantes causées par le déplacement soudain d'un grand volume d'eau.
+Un **tsunami** (mot japonais signifiant "vague du port") est une série de vagues océaniques extrêmement longues générées par le déplacement soudain d'un grand volume d'eau.
 
-**Caractéristiques :**
-• Vitesse : 500-800 km/h
-• Hauteur : jusqu'à 30 mètres
-• Longueur d'onde : 100-200 km
+**Caractéristiques principales :**
+- **Vitesse** : 500-800 km/h en eau profonde (comme un avion de ligne)
+- **Hauteur** : 30 cm à 1m en mer → 10-30m près des côtes
+- **Longueur d'onde** : 100-200 km (vs 100m pour une vague normale)
+- **Période** : 10-60 minutes entre les vagues successives
 
-**Attention :** Ce n'est pas une vague normale, mais un mouvement de toute la colonne d'eau.
+**Mécanisme physique :** Le déplacement vertical du fond marin pousse toute la colonne d'eau, créant des ondes qui se propagent dans toutes les directions.
             """,
             "en": """
 **🌊 TSUNAMI DEFINITION**
 
-A tsunami is a series of giant ocean waves caused by the sudden displacement of a large volume of water.
+A **tsunami** (Japanese for "harbor wave") is a series of extremely long ocean waves generated by the sudden displacement of a large volume of water.
 
-**Characteristics:**
-• Speed: 500-800 km/h
-• Height: up to 30 meters  
-• Wavelength: 100-200 km
+**Key characteristics:**
+- **Speed**: 500-800 km/h in deep water (like a jet airliner)
+- **Height**: 30 cm to 1m at sea → 10-30m near coasts
+- **Wavelength**: 100-200 km (vs 100m for normal wave)
+- **Period**: 10-60 minutes between successive waves
 
-**Warning:** It's not a normal wave, but movement of the entire water column.
+**Physical mechanism**: Vertical seabed displacement pushes the entire water column, creating waves that propagate in all directions.
             """,
             "ar": """
 **🌊 تعريف التسونامي**
 
-التسونامي هو سلسلة من أمواج المحيط العملاقة الناتجة عن الانزياح المفاجئ لحجم كبير من الماء.
+**التسونامي** (كلمة يابانية تعني "موجة الميناء") هو سلسلة من أمواج المحيط الطويلة جدًا الناتجة عن الانزياح المفاجئ لحجم كبير من الماء.
+
+**الخصائص الرئيسية:**
+- **السرعة**: 500-800 كم/ساعة في المياه العميقة (مثل الطائرة النفاثة)
+- **الارتفاع**: 30 سم إلى 1م في البحر → 10-30م بالقرب من السواحل
+- **الطول الموجي**: 100-200 كم (مقابل 100م للموجة العادية)
+- **الفترة**: 10-60 دقيقة بين الأمواج المتتالية
+
+**الآلية الفيزيائية**: الانزياح الرأسي لقاع البحر يدفع عمود الماء بالكامل، مكونًا موجات تنتشر في جميع الاتجاهات.
+            """
+        }
+    },
+    
+    "difference_vague_tsunami": {
+        "keywords": {
+            "fr": ["différence vague tsunami", "comparaison vague normale", "vague vs tsunami"],
+            "en": ["difference wave tsunami", "tsunami vs normal wave", "compare wave tsunami"],
+            "ar": ["فرق موجة تسونامي", "مقارنة موجة عادية", "موجة مقابل تسونامي"]
+        },
+        "responses": {
+            "fr": """
+**🌊 DIFFÉRENCE ENTRE TSUNAMI ET VAGUE NORMALE**
+
+| Caractéristique | Vague Normale | Tsunami |
+|-----------------|---------------|---------|
+| **Cause** | Vent | Séisme/Glissement |
+| **Longueur d'onde** | 100-200 m | 100-200 km |
+| **Vitesse** | 10-60 km/h | 500-800 km/h |
+| **Période** | 5-20 secondes | 10-60 minutes |
+| **Énergie** | Surface | Colonne d'eau entière |
+| **Comportement** | Brise sur plage | Inonde terres |
+
+**Point crucial :** Une vague normale ne déplace que l'eau de surface, tandis qu'un tsunami déplace TOUTE la colonne d'eau du fond à la surface.
+            """,
+            "en": """
+**🌊 DIFFERENCE BETWEEN TSUNAMI AND NORMAL WAVE**
+
+| Characteristic | Normal Wave | Tsunami |
+|----------------|-------------|---------|
+| **Cause** | Wind | Earthquake/Landslide |
+| **Wavelength** | 100-200 m | 100-200 km |
+| **Speed** | 10-60 km/h | 500-800 km/h |
+| **Period** | 5-20 seconds | 10-60 minutes |
+| **Energy** | Surface | Entire water column |
+| **Behavior** | Breaks on beach | Floods inland |
+
+**Key point:** A normal wave only moves surface water, while a tsunami moves the ENTIRE water column from bottom to surface.
+            """,
+            "ar": """
+**🌊 الفرق بين التسونامي والموجة العادية**
+
+| الخاصية | الموجة العادية | التسونامي |
+|----------|----------------|-----------|
+| **السبب** | الرياح | الزلزال/الانهيار |
+| **الطول الموجي** | 100-200 م | 100-200 كم |
+| **السرعة** | 10-60 كم/ساعة | 500-800 كم/ساعة |
+| **الفترة** | 5-20 ثانية | 10-60 دقيقة |
+| **الطاقة** | السطح | عمود الماء بالكامل |
+| **السلوك** | ينكسر على الشاطئ | يغمر اليابسة |
+
+**النقطة الأساسية:** الموجة العادية تحرك فقط مياه السطح، بينما التسونامي يحرك عمود الماء بالكامل من القاع إلى السطح.
+            """
+        }
+    },
+    
+    "causes_principales": {
+        "keywords": {
+            "fr": ["causes principales tsunami", "origines tsunami", "pourquoi tsunami"],
+            "en": ["main causes tsunami", "tsunami origins", "why tsunami"],
+            "ar": ["أسباب رئيسية تسونامي", "مصادر تسونامي", "لماذا تسونامي"]
+        },
+        "responses": {
+            "fr": """
+**📌 CAUSES PRINCIPALES DES TSUNAMIS**
+
+**1. SÉISMES SOUS-MARINS (90% des cas)**
+- **Magnitude minimale** : > 6.5 sur l'échelle de Richter
+- **Type de faille** : Mouvement vertical essentiellement
+- **Exemple** : Japon 2011 (magnitude 9.0), Sumatra 2004 (9.1)
+
+**2. GLISSEMENTS DE TERRAIN SOUS-MARINS (7%)**
+- **Volume** : Peut atteindre des kilomètres cubes
+- **Localisation** : Pentes continentales, volcans sous-marins
+- **Exemple** : Papouasie-Nouvelle-Guinée 1998
+
+**3. ÉRUPTIONS VOLCANIQUES (2%)**
+- **Mécanisme** : Effondrement du volcan, entrée de matériaux
+- **Exemple** : Krakatoa 1883 (vagues de 40m)
+
+**4. IMPACTS DE MÉTÉORITES (1%)**
+- **Rareté** : Événements exceptionnels
+- **Énergie** : Extrêmement destructrice
+
+**5. AUTRES CAUSES** : Explosions nucléaires sous-marines, effondrements glaciaires
+            """,
+            "en": """
+**📌 MAIN TSUNAMI CAUSES**
+
+**1. UNDERSEA EARTHQUAKES (90% of cases)**
+- **Minimum magnitude**: > 6.5 on Richter scale
+- **Fault type**: Primarily vertical movement
+- **Example**: Japan 2011 (magnitude 9.0), Sumatra 2004 (9.1)
+
+**2. SUBMARINE LANDSLIDES (7%)**
+- **Volume**: Can reach cubic kilometers
+- **Location**: Continental slopes, underwater volcanoes
+- **Example**: Papua New Guinea 1998
+
+**3. VOLCANIC ERUPTIONS (2%)**
+- **Mechanism**: Volcano collapse, material entry
+- **Example**: Krakatoa 1883 (40m waves)
+
+**4. METEORITE IMPACTS (1%)**
+- **Rarity**: Exceptional events
+- **Energy**: Extremely destructive
+
+**5. OTHER CAUSES**: Underwater nuclear explosions, glacial collapses
+            """,
+            "ar": """
+**📌 الأسباب الرئيسية للتسونامي**
+
+**1. الزلازل تحت البحر (90٪ من الحالات)**
+- **الحد الأدنى للقوة**: > 6.5 على مقياس ريختر
+- **نوع الصدع**: حركة رأسية primarily
+- **مثال**: اليابان 2011 (قوة 9.0)، سومطرة 2004 (9.1)
+
+**2. الانهيارات الأرضية تحت البحر (7٪)**
+- **الحجم**: يمكن أن يصل إلى كيلومترات مكعبة
+- **الموقع**: المنحدرات القارية، البراكين تحت الماء
+- **مثال**: بابوا غينيا الجديدة 1998
+
+**3. الثورات البركانية (2٪)**
+- **الآلية**: انهيار البركان، دخول المواد
+- **مثال**: كراكاتوا 1883 (أمواج 40م)
+
+**4. اصطدام النيازك (1٪)**
+- **الندرة**: أحداث استثنائية
+- **الطاقة**: مدمرة للغاية
+
+**5. أسباب أخرى**: انفجارات نووية تحت الماء، انهيارات جليدية
+            """
+        }
+    },
+    
+    "seisme_tsunami": {
+        "keywords": {
+            "fr": ["séisme provoquer tsunami", "comment séisme tsunami", "mécanisme séisme tsunami"],
+            "en": ["earthquake cause tsunami", "how earthquake tsunami", "mechanism earthquake tsunami"],
+            "ar": ["زلزال يتسبب تسونامي", "كيف زلزال تسونامي", "آلية زلزال تسونامي"]
+        },
+        "responses": {
+            "fr": """
+**🔬 COMMENT UN SÉISME PROVOQUE UN TSUNAMI**
+
+**Processus en 4 étapes :**
+
+**1. RUPTURE SOUS-MARINE**
+- Faille tectonique se rompt sous l'océan
+- Déplacement vertical du plancher océanique (jusqu'à 10m)
+- Temps : Quelques secondes à minutes
+
+**2. DÉPLACEMENT D'EAU**
+- La colonne d'eau est poussée vers le haut ou tirée vers le bas
+- Création d'une "bosse" d'eau à la surface
+- Énergie transmise à toute la colonne d'eau
+
+**3. PROPAGATION DES ONDES**
+- Ondes se propagent à 800 km/h en eau profonde
+- Longue distance avec peu de perte d'énergie
+- Amplification près des côtes
+
+**4. DÉFERLEMENT CÔTIER**
+- Ralentissement en eau peu profonde
+- Amplitude des vagues multipliée par 10-30
+- Inondation des terres
+
+**Conditions nécessaires :**
+- Magnitude > 6.5
+- Faille à mouvement vertical
+- Profondeur < 50 km
+            """,
+            "en": """
+**🔬 HOW AN EARTHQUAKE CAUSES A TSUNAMI**
+
+**4-step process:**
+
+**1. UNDERSEA RUPTURE**
+- Tectonic fault breaks under ocean
+- Vertical displacement of ocean floor (up to 10m)
+- Time: Few seconds to minutes
+
+**2. WATER DISPLACEMENT**
+- Water column pushed upward or pulled downward
+- Creation of water "bulge" at surface
+- Energy transmitted to entire water column
+
+**3. WAVE PROPAGATION**
+- Waves propagate at 800 km/h in deep water
+- Long distance with little energy loss
+- Amplification near coasts
+
+**4. COASTAL BREAKING**
+- Slowing in shallow water
+- Wave amplitude multiplied by 10-30
+- Land flooding
+
+**Required conditions:**
+- Magnitude > 6.5
+- Vertical movement fault
+- Depth < 50 km
+            """,
+            "ar": """
+**🔬 كيف يتسبب الزلزال في تسونامي**
+
+**عملية من 4 خطوات:**
+
+**1. تمزق تحت البحر**
+- انكسار الصدع التكتوني تحت المحيط
+- الانزياح الرأسي لقاع المحيط (حتى 10م)
+- الوقت: بضع ثوان إلى دقائق
+
+**2. إزاحة الماء**
+- دفع عمود الماء لأعلى أو سحبه لأسفل
+- تكوين "انتفاخ" مائي على السطح
+- نقل الطاقة إلى عمود الماء بالكامل
+
+**3. انتشار الموج**
+- انتشار الأمواج بسرعة 800 كم/ساعة في المياه العميقة
+- مسافة طويلة مع فقدان طاقة قليل
+- تضخيم بالقرب من السواحل
+
+**4. انكسار ساحلي**
+- التباطؤ في المياه الضحلة
+- تضخيم سعة الموجة 10-30 مرة
+- فيضان اليابسة
+
+**الشروط المطلوبة:**
+- قوة > 6.5
+- صدع بحركة رأسية
+- عمق < 50 كم
+            """
+        }
+    },
+    
+    "volcan_glissement_tsunami": {
+        "keywords": {
+            "fr": ["volcan tsunami", "glissement terrain tsunami", "éruption tsunami"],
+            "en": ["volcano tsunami", "landslide tsunami", "eruption tsunami"],
+            "ar": ["بركان تسونامي", "انهيار أرضي تسونامي", "ثوران تسونامي"]
+        },
+        "responses": {
+            "fr": """
+**🌋 TSUNAMIS VOLCANIQUES ET PAR GLISSEMENTS**
+
+**TSUNAMIS VOLCANIQUES :**
+
+**Mécanismes :**
+1. **Effondrement du volcan** - Flancs qui s'effondrent dans la mer
+2. **Pyroclastiques** - Flux de matériaux entrant dans l'eau
+3. **Explosions sous-marines** - Vapeur et gaz sous pression
+
+**Exemples célèbres :**
+- **Krakatoa 1883** : Vagues de 40m, 36,000 morts
+- **Santorin 1600 av.J-C** : Possible fin de la civilisation minoenne
+
+**TSUNAMIS PAR GLISSEMENTS :**
+
+**Types de glissements :**
+- **Sous-marins** : Effondrement pentes continentales
+- **Aériens** : Roches/glaciers tombant dans fjords/lacs
+
+**Caractéristiques :**
+- Plus localisés mais très destructeurs localement
+- Peuvent survenir sans séisme préalable
+- Difficiles à prévoir
+
+**Exemple :** Baie Lituya 1958 - Vague de 524m (record mondial)
+            """,
+            "en": """
+**🌋 VOLCANIC AND LANDSLIDE TSUNAMIS**
+
+**VOLCANIC TSUNAMIS:**
+
+**Mechanisms:**
+1. **Volcano collapse** - Flanks collapsing into sea
+2. **Pyroclastics** - Material flows entering water
+3. **Underwater explosions** - Steam and pressurized gas
+
+**Famous examples:**
+- **Krakatoa 1883**: 40m waves, 36,000 deaths
+- **Santorini 1600 BC**: Possible end of Minoan civilization
+
+**LANDSLIDE TSUNAMIS:**
+
+**Landslide types:**
+- **Submarine**: Continental slope collapses
+- **Aerial**: Rocks/glaciers falling into fjords/lakes
+
+**Characteristics:**
+- More localized but very destructive locally
+- Can occur without prior earthquake
+- Difficult to predict
+
+**Example:** Lituya Bay 1958 - 524m wave (world record)
+            """,
+            "ar": """
+**🌋 تسونامي البراكين والانهيارات**
+
+**تسونامي البراكين:**
+
+**الآليات:**
+1. **انهيار البركان** - انهيار الأجنبة في البحر
+2. **المواد البركانية** - تدفق المواد إلى الماء
+3. **انفجارات تحت الماء** - البخار والغاز المضغوط
+
+**أمثلة مشهورة:**
+- **كراكاتوا 1883**: أمواج 40م، 36,000 وفاة
+- **سانتوريني 1600 ق.م**: نهاية محتملة للحضارة المينوية
+
+**تسونامي الانهيارات:**
+
+**أنواع الانهيارات:**
+- **تحت البحر**: انهيار المنحدرات القارية
+- **جوي**: صخور/أنهار جليدية تسقط في المضايق/البحيرات
 
 **الخصائص:**
-• السرعة: 500-800 كم/ساعة
-• الارتفاع: حتى 30 مترًا
-• الطول الموجي: 100-200 كم
+- أكثر تمركزًا ولكن مدمرة جدًا محليًا
+- يمكن أن تحدث بدون زلزال مسبق
+- صعبة التنبؤ
 
-**تحذير:** ليس موجة عادية، ولكن حركة عمود الماء بالكامل.
+**مثال:** خليج ليتويا 1958 - موجة 524م (رقم قياسي عالمي)
             """
         }
     },
     
-    "causes": {
+    "signes_precurseurs": {
         "keywords": {
-            "fr": ["cause", "provoque", "origine", "pourquoi", "séisme"],
-            "en": ["cause", "causes", "why", "origin", "earthquake"],
-            "ar": ["سبب", "أسباب", "لماذا", "مصدر", "زلزال"]
+            "fr": ["signes précurseurs tsunami", "signes avant tsunami", "alerte naturelle tsunami"],
+            "en": ["tsunami warning signs", "natural signs tsunami", "tsunami precursors"],
+            "ar": ["علامات إنذار تسونامي", "علامات قبل تسونامي", "إنذار طبيعي تسونامي"]
         },
         "responses": {
             "fr": """
-**📌 CAUSES DES TSUNAMIS**
+**⚠️ SIGNES PRÉCURSEURS D'UN TSUNAMI**
 
-**Principales causes :**
+**SIGNES NATURELS (À CONNAÎTRE ABSOLUMENT) :**
 
-1. **Séismes sous-marins** (90%)
-   - Magnitude > 7.0
-   - Mouvement vertical des failles
+**1. SÉISME FORT ET LONG**
+- Durée > 20 secondes
+- Impossible de rester debout
+- Secousses violentes
 
-2. **Glissements de terrain sous-marins**
-   - Effondrement de sédiments
+**2. RETRAIT SOUDAIN DE LA MER**
+- Mer qui se retire anormalement loin
+- Fond marin visible sur des centaines de mètres
+- **ATTENTION** : Ce n'est pas le moment de prendre des photos !
 
-3. **Éruptions volcaniques**
-   - Volcans sous-marins
+**3. BRUIT ANORMAL**
+- Bruit de locomotive ou d'avion à réaction
+- Grondement sourd venant de l'océan
 
-4. **Impacts de météorites** (rares)
+**4. COMPORTEMENT ANIMAL**
+- Animaux qui fuient vers les hauteurs
+- Oiseaux qui s'envolent en masse
+
+**SIGNES OFFICIELS :**
+- Sirènes d'alerte tsunami
+- Messages d'urgence sur téléphone
+- Alertes médias et radio
+
+**RÈGLE D'OR :** En cas de séisme côtier, évacuez immédiatement sans attendre les signes visuels !
             """,
             "en": """
-**📌 TSUNAMI CAUSES**
+**⚠️ TSUNAMI WARNING SIGNS**
 
-**Main causes:**
+**NATURAL SIGNS (MUST KNOW):**
 
-1. **Undersea earthquakes** (90%)
-   - Magnitude > 7.0
-   - Vertical fault movement
+**1. STRONG, LONG EARTHQUAKE**
+- Duration > 20 seconds
+- Cannot stand upright
+- Violent shaking
 
-2. **Submarine landslides** 
-   - Sediment collapse
+**2. SUDDEN SEA RETREAT**
+- Sea retreating abnormally far
+- Seabed visible for hundreds of meters
+- **WARNING**: Not the time for photos!
 
-3. **Volcanic eruptions**
-   - Underwater volcanoes
+**3. ABNORMAL NOISE**
+- Locomotive or jet engine noise
+- Deep roar from ocean
 
-4. **Meteorite impacts** (rare)
+**4. ANIMAL BEHAVIOR**
+- Animals fleeing to high ground
+- Birds flying away en masse
+
+**OFFICIAL SIGNS:**
+- Tsunami warning sirens
+- Emergency phone messages
+- Media and radio alerts
+
+**GOLDEN RULE:** During coastal earthquake, evacuate immediately without waiting for visual signs!
             """,
             "ar": """
-**📌 أسباب التسونامي**
+**⚠️ علامات إنذار التسونامي**
 
-**الأسباب الرئيسية:**
+**العلامات الطبيعية (يجب معرفتها):**
 
-1. **الزلازل تحت البحر** (90٪)
-   - قوة أكبر من 7.0
-   - حركة الصدوع العمودية
+**1. زلزال قوي وطويل**
+- المدة > 20 ثانية
+- عدم القدرة على الوقوف
+- اهتزازات عنيفة
 
-2. **الانهيارات الأرضية تحت البحر**
-   - انهيار الرواسب
+**2. انسحاب مفاجئ للبحر**
+- تراجع البحر بشكل غير طبيعي
+- قاع البحر مرئي لمئات الأمتار
+- **تحذير**: ليس وقتًا لالتقاط الصور!
 
-3. **الثورات البركانية**
-   - البراكين تحت الماء
+**3. ضجيج غير طبيعي**
+- ضجيج مثل القطار أو المحرك النفاث
+- هدير عميق قادم من المحيط
 
-4. **اصطدام النيازك** (نادر)
+**4. سلوك الحيوان**
+- حيوانات تهرب إلى المرتفعات
+- طيور تطير بعيدًا بأعداد كبيرة
+
+**العلامات الرسمية:**
+- صفارات إنذار التسونامي
+- رسائل طوارئ على الهاتف
+- تنبيهات الإعلام والراديو
+
+**القاعدة الذهبية:** أثناء الزلزال الساحلي، اخل فورًا دون انتظار العلامات المرئية!
             """
         }
     },
     
-    "consequences": {
+    # ========== CONSÉQUENCES ==========
+    "consequences_humaines": {
         "keywords": {
-            "fr": ["conséquence", "impact", "effet", "dégât", "destruction"],
-            "en": ["consequence", "impact", "effect", "damage", "destruction"],
-            "ar": ["عاقبة", "تأثير", "أثر", "ضرر", "دمار"]
+            "fr": ["conséquences humaines tsunami", "victimes tsunami", "morts tsunami"],
+            "en": ["human consequences tsunami", "tsunami victims", "tsunami deaths"],
+            "ar": ["عواقب بشرية تسونامي", "ضحايا تسونامي", "وفيات تسونامي"]
         },
         "responses": {
             "fr": """
-**💥 CONSÉQUENCES DES TSUNAMIS**
+**😢 CONSÉQUENCES HUMAINES DES TSUNAMIS**
 
-**Impacts immédiats :**
-• Victimes par noyade
-• Destruction des infrastructures
-• Pertes économiques énormes
+**IMPACTS IMMÉDIATS :**
 
-**Impacts à long terme :**
-• Pollution environnementale
-• Déplacement des populations
-• Traumatismes psychologiques
+**1. MORTS ET BLESSÉS**
+- **Noyade** (cause principale de décès)
+- **Traumatismes physiques** (fractures, blessures)
+- **Hypothermie** en eau froide
 
-**Exemples :**
-• 2004 : 230,000 morts
-• 2011 : 18,000 morts
+**2. DÉPLACEMENTS DE POPULATION**
+- Maisons détruites
+- Infrastructures endommagées
+- Réfugiés environnementaux
+
+**STATISTIQUES :**
+- **Tsunami 2004** : 230,000-280,000 morts
+- **Japon 2011** : 18,000 morts confirmés
+- **Moyenne historique** : Variable selon l'événement
+
+**FACTEURS INFLUENÇANT LA MORTALITÉ :**
+- Densité de population côtière
+- Heure de la journée (nuit = plus dangereux)
+- Systèmes d'alerte en place
+- Éducation de la population
             """,
             "en": """
-**💥 TSUNAMI CONSEQUENCES**
+**😢 HUMAN CONSEQUENCES OF TSUNAMIS**
 
-**Immediate impacts:**
-• Drowning victims
-• Infrastructure destruction
-• Huge economic losses
+**IMMEDIATE IMPACTS:**
 
-**Long-term impacts:**
-• Environmental pollution
-• Population displacement
-• Psychological trauma
+**1. DEATHS AND INJURIES**
+- **Drowning** (main cause of death)
+- **Physical trauma** (fractures, injuries)
+- **Hypothermia** in cold water
 
-**Examples:**
-• 2004: 230,000 deaths
-• 2011: 18,000 deaths
+**2. POPULATION DISPLACEMENT**
+- Homes destroyed
+- Damaged infrastructure
+- Environmental refugees
+
+**STATISTICS:**
+- **2004 tsunami**: 230,000-280,000 deaths
+- **Japan 2011**: 18,000 confirmed deaths
+- **Historical average**: Varies by event
+
+**FACTORS INFLUENCING MORTALITY:**
+- Coastal population density
+- Time of day (night = more dangerous)
+- Warning systems in place
+- Population education
             """,
             "ar": """
-**💥 عواقب التسونامي**
+**😢 العواقب البشرية للتسونامي**
 
 **الآثار الفورية:**
-• ضحايا الغرق
-• تدمير البنية التحتية
-• خسائر اقتصادية هائلة
 
-**الآثار طويلة المدى:**
-• تلوث بيئي
-• نزوح السكان
-• صدمات نفسية
+**1. الوفيات والإصابات**
+- **الغرق** (السبب الرئيسي للوفاة)
+- **الصدمات الجسدية** (كسور، إصابات)
+- **انخفاض حرارة الجسم** في الماء البارد
 
-**أمثلة:**
-• 2004: 230,000 وفاة
-• 2011: 18,000 وفاة
+**2. نزوح السكان**
+- تدمير المنازل
+- تلف البنية التحتية
+- لاجئون بيئيون
+
+**الإحصائيات:**
+- **تسونامي 2004**: 230,000-280,000 وفاة
+- **اليابان 2011**: 18,000 وفاة مؤكدة
+- **المتوسط التاريخي**: يختلف حسب الحدث
+
+**العوامل المؤثرة على الوفيات:**
+- كثافة السكان الساحليين
+- وقت اليوم (الليل = أكثر خطورة)
+- أنظمة الإنذار الموجودة
+- تثقيف السكان
             """
         }
     },
     
-    "reaction": {
+    "impacts_economiques": {
         "keywords": {
-            "fr": ["réagir", "faire", "danger", "urgence", "évacuer", "alerte"],
-            "en": ["react", "do", "danger", "emergency", "evacuate", "alert"],
-            "ar": ["يتفاعل", "افعل", "خطر", "طوارئ", "إخلاء", "إنذار"]
+            "fr": ["impacts économiques tsunami", "coût économique tsunami", "pertes économiques"],
+            "en": ["economic impacts tsunami", "tsunami economic cost", "economic losses"],
+            "ar": ["آثار اقتصادية تسونامي", "تكلفة اقتصادية تسونامي", "خسائر اقتصادية"]
         },
         "responses": {
             "fr": """
-**🚨 QUE FAIRE FACE À UN TSUNAMI ?**
+**💰 IMPACTS ÉCONOMIQUES DES TSUNAMIS**
 
-**Signes d'alerte :**
-• Séisme prolongé
-• Retrait de la mer
-• Bruit fort
+**COÛTS DIRECTS :**
 
-**Actions immédiates :**
-1. Éloignez-vous du rivage
-2. Montez en hauteur (>15m)
-3. N'utilisez pas votre voiture
-4. Alertez les autres
-5. Suivez les consignes officielles
+**1. INFRASTRUCTURES DÉTRUITES**
+- Ports et installations côtières
+- Routes et ponts
+- Réseaux électriques et eau
 
-**Urgence : 112 / 911 / 999**
+**2. PERTES SECTORIELLES**
+- **Pêche** : Bateaux, équipements détruits
+- **Tourisme** : Arrêt complet de l'activité
+- **Agriculture** : Terres salinisées
+
+**COÛTS INDIRECTS :**
+
+**1. RECONSTRUCTION**
+- Coût des travaux de reconstruction
+- Relogement des populations
+- Durée : 5-10 ans minimum
+
+**2. PERTES À LONG TERME**
+- Dette nationale augmentée
+- Croissance économique ralentie
+- Chômage accru
+
+**EXEMPLES DE COÛTS :**
+- **Japon 2011** : 235 milliards USD
+- **Indonésie 2004** : 4.5 milliards USD
+- **Moyenne** : 10-50 milliards USD par grand tsunami
             """,
             "en": """
-**🚨 WHAT TO DO DURING TSUNAMI?**
+**💰 ECONOMIC IMPACTS OF TSUNAMIS**
 
-**Warning signs:**
-• Prolonged earthquake
-• Sea retreat
-• Loud noise
+**DIRECT COSTS:**
 
-**Immediate actions:**
-1. Move away from shore
-2. Go to high ground (>15m)
-3. Don't use your car
-4. Alert others
-5. Follow official instructions
+**1. DESTROYED INFRASTRUCTURE**
+- Ports and coastal facilities
+- Roads and bridges
+- Power and water networks
 
-**Emergency: 112 / 911 / 999**
+**2. SECTORAL LOSSES**
+- **Fishing**: Boats, equipment destroyed
+- **Tourism**: Complete activity stop
+- **Agriculture**: Salinized lands
+
+**INDIRECT COSTS:**
+
+**1. RECONSTRUCTION**
+- Reconstruction work costs
+- Population relocation
+- Duration: 5-10 years minimum
+
+**2. LONG-TERM LOSSES**
+- Increased national debt
+- Slowed economic growth
+- Increased unemployment
+
+**COST EXAMPLES:**
+- **Japan 2011**: 235 billion USD
+- **Indonesia 2004**: 4.5 billion USD
+- **Average**: 10-50 billion USD per major tsunami
             """,
             "ar": """
-**🚨 ماذا أفعل أثناء التسونامي؟**
+**💰 الآثار الاقتصادية للتسونامي**
 
-**علامات التحذير:**
-• زلزال طويل
-• انسحاب البحر
-• ضجيج عال
+**التكاليف المباشرة:**
 
-**الإجراءات الفورية:**
-1. ابتعد عن الشاطئ
-2. اصعد إلى مكان مرتفع (>15م)
-3. لا تستخدم سيارتك
-4. حذر الآخرين
-5. اتبع التعليمات الرسمية
+**1. البنى التحتية المدمرة**
+- الموانئ والمرافق الساحلية
+- الطرق والجسور
+- شبكات الكهرباء والماء
 
-**الطوارئ: 112 / 911 / 999**
+**2. الخسائر القطاعية**
+- **الصيد**: تدمير القوارب والمعدات
+- **السياحة**: توقف كامل للنشاط
+- **الزراعة**: أراضي مملحة
+
+**التكاليف غير المباشرة:**
+
+**1. إعادة الإعمار**
+- تكاليف أعمال إعادة الإعمار
+- إعادة توطين السكان
+- المدة: 5-10 سنوات كحد أدنى
+
+**2. الخسائر طويلة الأجل**
+- زيادة الديون الوطنية
+- تباطؤ النمو الاقتصادي
+- زيادة البطالة
+
+**أمثلة التكاليف:**
+- **اليابان 2011**: 235 مليار دولار
+- **إندونيسيا 2004**: 4.5 مليار دولار
+- **المتوسط**: 10-50 مليار دولار لكل تسونامي كبير
             """
         }
     },
     
-    "image": {
+    # ========== EXEMPLES HISTORIQUES ==========
+    "tsunami_2004": {
         "keywords": {
-            "fr": ["image", "photo", "voir", "montre", "affiche", "visuel"],
-            "en": ["image", "picture", "show", "see", "display", "visual"],
-            "ar": ["صورة", "رؤية", "عرض", "أظهر", "شكل", "مرئي"]
+            "fr": ["tsunami 2004", "océan indien 2004", "sumatra 2004"],
+            "en": ["2004 tsunami", "indian ocean 2004", "sumatra 2004"],
+            "ar": ["تسونامي 2004", "المحيط الهندي 2004", "سومطرة 2004"]
         },
         "responses": {
-            "fr": "🖼️ **Voici une illustration d'un tsunami :**",
-            "en": "🖼️ **Here is a tsunami illustration:**",
-            "ar": "🖼️ **ها هي صورة توضيحية للتسونامي:**"
+            "fr": """
+**🌊 TSUNAMI DE L'OCÉAN INDIEN 2004**
+
+**CARACTÉRISTIQUES :**
+- **Date** : 26 décembre 2004
+- **Épicentre** : Au large de Sumatra, Indonésie
+- **Magnitude** : 9.1-9.3 (3ème plus fort jamais enregistré)
+- **Pays touchés** : 14 pays
+
+**IMPACT HUMAIN :**
+- **Morts** : 230,000 à 280,000 personnes
+- **Blessés** : Plus de 125,000
+- **Déplacés** : 1.7 million de personnes
+
+**DÉTAILS :**
+- Vagues jusqu'à 30m de haut
+- Durée : 7-8 heures de vagues successives
+- Distance parcourue : 5,000 km
+- Temps d'arrivée : 15 min (Indonésie) à 7h (Afrique)
+
+**LEÇONS APPRISES :**
+- Création du système d'alerte de l'océan Indien
+- Meilleure coordination internationale
+- Importance de l'éducation publique
+            """,
+            "en": """
+**🌊 2004 INDIAN OCEAN TSUNAMI**
+
+**CHARACTERISTICS:**
+- **Date**: December 26, 2004
+- **Epicenter**: Off coast of Sumatra, Indonesia
+- **Magnitude**: 9.1-9.3 (3rd strongest ever recorded)
+- **Affected countries**: 14 countries
+
+**HUMAN IMPACT:**
+- **Deaths**: 230,000 to 280,000 people
+- **Injured**: Over 125,000
+- **Displaced**: 1.7 million people
+
+**DETAILS:**
+- Waves up to 30m high
+- Duration: 7-8 hours of successive waves
+- Distance traveled: 5,000 km
+- Arrival time: 15 min (Indonesia) to 7h (Africa)
+
+**LESSONS LEARNED:**
+- Creation of Indian Ocean warning system
+- Better international coordination
+- Importance of public education
+            """,
+            "ar": """
+**🌊 تسونامي المحيط الهندي 2004**
+
+**الخصائص:**
+- **التاريخ**: 26 ديسمبر 2004
+- **المركز**: قبالة سواحل سومطرة، إندونيسيا
+- **القوة**: 9.1-9.3 (ثالث أقوى زلزال مسجل)
+- **الدول المتضررة**: 14 دولة
+
+**التأثير البشري:**
+- **الوفيات**: 230,000 إلى 280,000 شخص
+- **المصابون**: أكثر من 125,000
+- **النازحون**: 1.7 مليون شخص
+
+**التفاصيل:**
+- أمواج حتى 30م ارتفاعًا
+- المدة: 7-8 ساعات من أمواج متتالية
+- المسافة المقطوعة: 5,000 كم
+- وقت الوصول: 15 دقيقة (إندونيسيا) إلى 7 ساعات (أفريقيا)
+
+**الدروس المستفادة:**
+- إنشاء نظام إنذار المحيط الهندي
+- تنسيق دولي أفضل
+- أهمية التوعية العامة
+            """
+        }
+    },
+    
+    "japon_2011": {
+        "keywords": {
+            "fr": ["japon 2011", "tsunami japon 2011", "fukushima 2011"],
+            "en": ["japan 2011", "2011 japan tsunami", "fukushima 2011"],
+            "ar": ["اليابان 2011", "تسونامي اليابان 2011", "فوكوشيما 2011"]
+        },
+        "responses": {
+            "fr": """
+**🇯🇵 TSUNAMI DU JAPON 2011**
+
+**CARACTÉRISTIQUES :**
+- **Date** : 11 mars 2011
+- **Nom** : "Grand séisme de l'Est du Japon"
+- **Magnitude** : 9.0-9.1
+- **Épicentre** : 70 km à l'est de Sendai
+
+**IMPACT DU TSUNAMI :**
+- **Hauteur maximale** : 40.5 mètres (record au Japon)
+- **Pénétration terres** : Jusqu'à 10 km à l'intérieur
+- **Durée** : Vagues pendant plus de 24 heures
+
+**CONSÉQUENCES :**
+- **Morts confirmés** : 15,899
+- **Disparus** : 2,527
+- **Déplacés** : 340,000 personnes
+
+**CATASTROPHE NUCLÉAIRE :**
+- **Centrale Fukushima Daiichi** : 3 réacteurs fusionnés
+- **Évacuation** : Zone de 20 km
+- **Impact environnemental** : Rejets radioactifs
+
+**RÉPONSE INTERNATIONALE :**
+- Aide humanitaire mondiale
+- Revues de sécurité nucléaire
+- Amélioration des normes
+            """,
+            "en": """
+**🇯🇵 2011 JAPAN TSUNAMI**
+
+**CHARACTERISTICS:**
+- **Date**: March 11, 2011
+- **Name**: "Great East Japan Earthquake"
+- **Magnitude**: 9.0-9.1
+- **Epicenter**: 70 km east of Sendai
+
+**TSUNAMI IMPACT:**
+- **Maximum height**: 40.5 meters (Japan record)
+- **Land penetration**: Up to 10 km inland
+- **Duration**: Waves for over 24 hours
+
+**CONSEQUENCES:**
+- **Confirmed deaths**: 15,899
+- **Missing**: 2,527
+- **Displaced**: 340,000 people
+
+**NUCLEAR DISASTER:**
+- **Fukushima Daiichi plant**: 3 melted reactors
+- **Evacuation**: 20 km zone
+- **Environmental impact**: Radioactive releases
+
+**INTERNATIONAL RESPONSE:**
+- Global humanitarian aid
+- Nuclear safety reviews
+- Improved standards
+            """,
+            "ar": """
+**🇯🇵 تسونامي اليابان 2011**
+
+**الخصائص:**
+- **التاريخ**: 11 مارس 2011
+- **الاسم**: "زلزال شرق اليابان الكبير"
+- **القوة**: 9.0-9.1
+- **المركز**: 70 كم شرق سينداي
+
+**تأثير التسونامي:**
+- **الارتفاع الأقصى**: 40.5 متر (رقم قياسي في اليابان)
+- **اختراق اليابسة**: حتى 10 كم داخل اليابسة
+- **المدة**: أمواج لأكثر من 24 ساعة
+
+**العواقب:**
+- **الوفيات المؤكدة**: 15,899
+- **المفقودون**: 2,527
+- **النازحون**: 340,000 شخص
+
+**الكارثة النووية:**
+- **محطة فوكوشيما داييتشي**: 3 مفاعلات منصهرة
+- **الإخلاء**: منطقة 20 كم
+- **التأثير البيئي**: إطلاقات مشعة
+
+**الاستجابة الدولية:**
+- مساعدة إنسانية عالمية
+- مراجعات السلامة النووية
+- تحسين المعايير
+            """
         }
     }
 }
 
-# ==================== FONCTION DE RECHERCHE AVEC IMAGES ====================
+# ==================== FONCTION DE RECHERCHE ====================
 
 def find_response(user_input, language):
-    """Trouve la réponse et génère une image si demandé"""
+    """Trouve la réponse la plus pertinente"""
     user_input_lower = user_input.lower()
-    
-    # Vérifier si l'utilisateur demande une image
-    wants_image = any(keyword in user_input_lower for keyword in KNOWLEDGE_BASE["image"]["keywords"][language])
     
     # Recherche par catégorie
     for category, data in KNOWLEDGE_BASE.items():
-        if category == "image":
-            continue  # On gère les images séparément
-            
         for keyword in data["keywords"][language]:
             if keyword in user_input_lower:
-                if wants_image:
-                    image_data = create_tsunami_image(language)
-                    return data["responses"][language], image_data
-                else:
-                    return data["responses"][language], None
-    
-    # Si demande d'image seule
-    if wants_image:
-        image_data = create_tsunami_image(language)
-        return KNOWLEDGE_BASE["image"]["responses"][language], image_data
+                return data["responses"][language]
     
     # Réponse par défaut
     default_responses = {
-        "fr": "Posez-moi une question sur : définition, causes, conséquences, comment réagir, ou demandez une image de tsunami.",
-        "en": "Ask me about: definition, causes, consequences, how to react, or request a tsunami image.",
-        "ar": "اسألني عن: التعريف، الأسباب، العواقب، كيفية التفاعل، أو اطلب صورة تسونامي."
+        "fr": "Je suis l'expert Tsunami. Posez-moi des questions sur : définition, causes, conséquences, exemples historiques, prévention, ou science des tsunamis.",
+        "en": "I'm the Tsunami expert. Ask me about: definition, causes, consequences, historical examples, prevention, or tsunami science.",
+        "ar": "أنا خبير التسونامي. اسألني عن: التعريف، الأسباب، العواقب، الأمثلة التاريخية، الوقاية، أو علم التسونامي."
     }
-    return default_responses[language], None
+    return default_responses[language]
 
 def display_text(text, language):
     """Affiche le texte avec la bonne direction"""
@@ -396,47 +974,100 @@ def display_text(text, language):
 
 # ==================== INTERFACE ====================
 
-# Titre simple
-st.markdown('<div class="main-header">🌊 Tsunami Guard</div>', unsafe_allow_html=True)
+# Titre
+st.markdown('<div class="main-header">🌊 Expert Tsunami</div>', unsafe_allow_html=True)
 
-# Sidebar simple
+# Sidebar
 with st.sidebar:
     st.markdown("### 🌍 Langue")
     selected_language = st.radio("", list(LANGUAGES.keys()), label_visibility="collapsed")
-    current_lang = LANGUAGES[selected_language]
+    current_lang = LANGUAGES[selected_lang]
     
-    st.markdown("### 💡 Questions types")
-    
-    sample_questions = {
-        "fr": [
-            "Définition tsunami",
-            "Causes tsunami",
-            "Conséquences tsunami", 
-            "Que faire tsunami",
-            "Image tsunami"
-        ],
-        "en": [
-            "Tsunami definition",
-            "Tsunami causes",
-            "Tsunami consequences",
-            "What to do tsunami",
-            "Tsunami image"
-        ],
-        "ar": [
-            "تعريف تسونامي",
-            "أسباب تسونامي",
-            "عواقب تسونامي",
-            "ماذا أفعل تسونامي",
-            "صورة تسونامي"
-        ]
+    # Questions par catégorie
+    categories = {
+        "fr": {
+            "definition": "📚 Définition et Causes",
+            "consequences": "💥 Conséquences", 
+            "historique": "📜 Exemples Historiques"
+        },
+        "en": {
+            "definition": "📚 Definition and Causes",
+            "consequences": "💥 Consequences",
+            "historique": "📜 Historical Examples" 
+        },
+        "ar": {
+            "definition": "📚 التعريف والأسباب",
+            "consequences": "💥 العواقب",
+            "historique": "📜 أمثلة تاريخية"
+        }
     }
     
-    for question in sample_questions[current_lang]:
-        if st.button(question, key=question):
-            st.session_state.auto_question = question
+    questions_by_category = {
+        "definition": {
+            "fr": [
+                "Définition tsunami",
+                "Différence vague tsunami", 
+                "Causes principales",
+                "Séisme provoque tsunami",
+                "Volcan glissement tsunami",
+                "Signes précurseurs"
+            ],
+            "en": [
+                "Tsunami definition",
+                "Difference wave tsunami",
+                "Main causes",
+                "Earthquake cause tsunami", 
+                "Volcano landslide tsunami",
+                "Warning signs"
+            ],
+            "ar": [
+                "تعريف تسونامي",
+                "فرق موجة تسونامي",
+                "أسباب رئيسية",
+                "زلزال يتسبب تسونامي",
+                "بركان انهيار تسونامي", 
+                "علامات إنذار"
+            ]
+        },
+        "consequences": {
+            "fr": [
+                "Conséquences humaines",
+                "Impacts économiques"
+            ],
+            "en": [
+                "Human consequences", 
+                "Economic impacts"
+            ],
+            "ar": [
+                "عواقب بشرية",
+                "آثار اقتصادية"
+            ]
+        },
+        "historique": {
+            "fr": [
+                "Tsunami 2004",
+                "Japon 2011"
+            ],
+            "en": [
+                "2004 tsunami",
+                "Japan 2011"
+            ],
+            "ar": [
+                "تسونامي 2004",
+                "اليابان 2011"
+            ]
+        }
+    }
     
+    for category_key, category_name in categories[current_lang].items():
+        st.markdown(f'<div class="category-header">{category_name}</div>', unsafe_allow_html=True)
+        for question in questions_by_category[category_key][current_lang]:
+            if st.button(question, key=f"{category_key}_{question}"):
+                st.session_state.auto_question = question
+    
+    st.markdown("---")
     st.markdown("### 🚨 Urgence")
-    st.markdown("**Éloignez-vous du rivage**")
+    st.markdown("**Éloignement immédiat**")
     st.markdown("**112 • 911 • 999**")
 
 # Zone de chat
@@ -445,20 +1076,18 @@ st.markdown('<div class="chat-container">', unsafe_allow_html=True)
 # Historique de conversation
 if "messages" not in st.session_state:
     welcome_messages = {
-        "fr": "🌊 **Tsunami Guard** - Posez-moi vos questions sur les tsunamis. Demandez 'image' pour voir une illustration !",
-        "en": "🌊 **Tsunami Guard** - Ask me your questions about tsunamis. Request 'image' to see an illustration!", 
-        "ar": "🌊 **حارس التسونامي** - اسألني أسئلتك عن التسونامي. اطلب 'صورة' لترى رسمًا توضيحيًا!"
+        "fr": "🌊 **Expert Tsunami** - Je peux répondre à toutes vos questions sur les tsunamis : définition, causes, conséquences, exemples historiques, prévention et science.",
+        "en": "🌊 **Tsunami Expert** - I can answer all your questions about tsunamis: definition, causes, consequences, historical examples, prevention and science.", 
+        "ar": "🌊 **خبير التسونامي** - يمكنني الإجابة على جميع أسئلتك عن التسونامي: التعريف، الأسباب، العواقب، الأمثلة التاريخية، الوقاية والعلم."
     }
     st.session_state.messages = [
-        {"role": "assistant", "content": welcome_messages[current_lang], "image_data": None}
+        {"role": "assistant", "content": welcome_messages[current_lang]}
     ]
 
 # Affichage de l'historique
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         display_text(message["content"], current_lang)
-        if message.get("image_data"):
-            display_image(message["image_data"])
 
 # Gestion des questions automatiques
 if "auto_question" in st.session_state:
@@ -474,16 +1103,15 @@ if prompt or (user_input := st.chat_input("💬 Posez votre question...")):
         prompt = user_input
     
     # Ajout du message utilisateur
-    st.session_state.messages.append({"role": "user", "content": prompt, "image_data": None})
+    st.session_state.messages.append({"role": "user", "content": prompt})
     
     # Génération de la réponse
-    response, image_data = find_response(prompt, current_lang)
+    response = find_response(prompt, current_lang)
     
     # Ajout de la réponse
     st.session_state.messages.append({
         "role": "assistant", 
-        "content": response,
-        "image_data": image_data
+        "content": response
     })
     
     st.rerun()
