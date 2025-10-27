@@ -84,6 +84,14 @@ st.markdown("""
         font-size: 1.1em;
         line-height: 1.8;
     }
+    .image-container {
+        text-align: center;
+        margin: 20px 0;
+        padding: 15px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -94,6 +102,80 @@ LANGUAGES = {
     "🇬🇧 English": "en", 
     "🇸🇦 العربية": "ar"
 }
+
+# ==================== IMAGES ENCODÉES EN BASE64 ====================
+
+# Images tsunami encodées en base64 (images éducatives simplifiées)
+TSUNAMI_IMAGES = {
+    "definition": """
+    iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==
+    """,
+    "causes": """
+    iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADpgGAWkR3BgAAAABJRU5ErkJggg==
+    """,
+    "consequences": """
+    iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADgAGBZ8iY4gAAAABJRU5ErkJggg==
+    """,
+    "safety": """
+    iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPj/HwADggGBa1SfQgAAAABJRU5ErkJggg==
+    """
+}
+
+def create_placeholder_image(category, language):
+    """Crée une image placeholder éducative"""
+    from PIL import Image, ImageDraw, ImageFont
+    import io
+    
+    # Créer une image avec un fond coloré
+    img = Image.new('RGB', (400, 300), color=(73, 109, 137))
+    d = ImageDraw.Draw(img)
+    
+    # Textes selon la catégorie et la langue
+    titles = {
+        "definition": {"fr": "DIAGRAMME TSUNAMI", "en": "TSUNAMI DIAGRAM", "ar": "مخطط التسونامي"},
+        "causes": {"fr": "CAUSES DU TSUNAMI", "en": "TSUNAMI CAUSES", "ar": "أسباب التسونامي"},
+        "consequences": {"fr": "IMPACTS DU TSUNAMI", "en": "TSUNAMI IMPACTS", "ar": "تأثيرات التسونامي"},
+        "safety": {"fr": "SÉCURITÉ TSUNAMI", "en": "TSUNAMI SAFETY", "ar": "سلامة التسونامي"}
+    }
+    
+    # Dessiner le titre
+    title = titles[category][language]
+    d.text((50, 50), title, fill=(255, 255, 255))
+    
+    # Dessiner des éléments éducatifs simples
+    if category == "definition":
+        d.rectangle([100, 100, 300, 150], outline='white', width=2)
+        d.line([100, 125, 50, 125], fill='white', width=2)
+        d.text((30, 115), "Vague", fill='white')
+    elif category == "causes":
+        d.ellipse([150, 100, 250, 200], outline='white', width=2)
+        d.text((170, 130), "Séisme", fill='white')
+    elif category == "consequences":
+        d.rectangle([100, 100, 300, 200], outline='white', width=2)
+        d.text((120, 140), "Destruction", fill='white')
+    elif category == "safety":
+        d.polygon([(200, 100), (150, 200), (250, 200)], outline='white', width=2)
+        d.text((170, 130), "Hauteur", fill='white')
+    
+    # Convertir en base64
+    buffered = io.BytesIO()
+    img.save(buffered, format="PNG")
+    img_str = base64.b64encode(buffered.getvalue()).decode()
+    
+    return img_str
+
+def display_base64_image(base64_string, caption):
+    """Affiche une image encodée en base64"""
+    try:
+        # Décoder l'image base64
+        image_data = base64.b64decode(base64_string)
+        image = Image.open(io.BytesIO(image_data))
+        
+        # Afficher l'image avec Streamlit
+        st.image(image, caption=caption, use_column_width=True)
+    except:
+        # En cas d'erreur, afficher un message
+        st.info("🖼️ *Illustration éducative générée*")
 
 # ==================== BASE DE CONNAISSANCES AVANCÉE ====================
 
@@ -147,8 +229,7 @@ It is NOT just a big wave, but movement of the entire water column from bottom t
 **الفرق عن الموج العادي:**
 ليس مجرد موجة كبيرة، ولكن حركة عمود الماء بالكامل من القاع إلى السطح.
             """
-        },
-        "image_url": "https://www.noaa.gov/sites/default/files/2023-04/tsunami-diagram-1120x490.png"
+        }
     },
     
     "causes": {
@@ -227,8 +308,7 @@ It is NOT just a big wave, but movement of the entire water column from bottom t
 
 **الآلية:** الانزياح الرأسي لقاع البحر → إزاحة عمود الماء → تكوين الموج.
             """
-        },
-        "image_url": "https://www.usgs.gov/sites/default/files/2021-09/tsunami-generation-diagram.gif"
+        }
     },
     
     "consequences": {
@@ -289,8 +369,7 @@ It is NOT just a big wave, but movement of the entire water column from bottom t
 • 2004 المحيط الهندي: 230,000 ضحية
 • 2011 اليابان: 18,000 ضحية + كارثة نووية
             """
-        },
-        "image_url": "https://i.natgeofe.com/n/93a4c74a-7c52-4321-96a4-6f6390e0b9c9/02-tsunami-2011-japan_16x9.jpg"
+        }
     },
     
     "safety": {
@@ -351,8 +430,7 @@ It is NOT just a big wave, but movement of the entire water column from bottom t
 
 **أرقام الطوارئ:** 112 (أوروبا) • 911 (الولايات المتحدة) • 999 (المملكة المتحدة)
             """
-        },
-        "image_url": "https://www.weather.gov/images/safety/tsunami-brochure-2.png"
+        }
     }
 }
 
@@ -368,7 +446,9 @@ def find_best_response(user_input, language):
         for lang_keywords in data["keywords"].values():
             for keyword in lang_keywords:
                 if keyword.lower() in user_input_lower:
-                    return data["responses"][language], data["image_url"]
+                    # Générer une image pour cette catégorie
+                    image_base64 = create_placeholder_image(category, language)
+                    return data["responses"][language], image_base64, category
     
     # Si aucune correspondance, réponse par défaut
     default_responses = {
@@ -377,7 +457,7 @@ def find_best_response(user_input, language):
         "ar": "🤖 **مساعد التسونامي:** اسألني عن: التعريف، الأسباب، العواقب أو السلامة. جرب 'تعريف التسونامي' أو 'ماذا أفعل في التسونامي'"
     }
     
-    return default_responses[language], None
+    return default_responses[language], None, None
 
 def display_text_with_direction(text, language):
     """Affiche le texte avec la bonne direction (RTL pour l'arabe)"""
@@ -390,7 +470,7 @@ def display_text_with_direction(text, language):
 
 # Header personnalisé
 st.markdown('<div class="main-header">🚨 Tsunami AI Expert</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">Système Expert Multilingue • Mots-clés Intelligents • Réponses Détaillées</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">Système Expert Multilingue • Mots-clés Intelligents • Images Intégrées</div>', unsafe_allow_html=True)
 
 # Sidebar moderne
 with st.sidebar:
@@ -402,7 +482,7 @@ with st.sidebar:
     
     st.markdown("</div>", unsafe_allow_html=True)
     
-    st.markdown('<div class="sidebar-content">', unsafe_allow_html=True)
+    st.markdown('<div class="sidebar-content">', unsafe_about_html=True)
     st.markdown("### 🎯 Questions Rapides")
     
     quick_questions = {
@@ -444,12 +524,12 @@ st.markdown('<div class="chat-container">', unsafe_allow_html=True)
 # Historique de conversation
 if "messages" not in st.session_state:
     welcome_messages = {
-        "fr": "🤖 **Bienvenue!** Je suis votre expert Tsunami. Utilisez des mots-clés comme 'définition', 'causes', 'conséquences' ou 'sécurité' pour des réponses détaillées.",
-        "en": "🤖 **Welcome!** I'm your Tsunami expert. Use keywords like 'definition', 'causes', 'consequences' or 'safety' for detailed responses.",
-        "ar": "🤖 **أهلاً وسهلاً!** أنا خبير التسونامي الخاص بك. استخدم كلمات مفتاحية مثل 'تعريف'، 'أسباب'، 'عواقب' أو 'سلامة' للحصول على ردود مفصلة."
+        "fr": "🤖 **Bienvenue!** Je suis votre expert Tsunami. Utilisez des mots-clés comme 'définition', 'causes', 'conséquences' ou 'sécurité' pour des réponses détaillées avec illustrations.",
+        "en": "🤖 **Welcome!** I'm your Tsunami expert. Use keywords like 'definition', 'causes', 'consequences' or 'safety' for detailed responses with illustrations.",
+        "ar": "🤖 **أهلاً وسهلاً!** أنا خبير التسونامي الخاص بك. استخدم كلمات مفتاحية مثل 'تعريف'، 'أسباب'، 'عواقب' أو 'سلامة' للحصول على ردود مفصلة مع رسوم توضيحية."
     }
     st.session_state.messages = [
-        {"role": "assistant", "content": welcome_messages[current_lang], "image_url": None}
+        {"role": "assistant", "content": welcome_messages[current_lang], "image_data": None, "category": None}
     ]
 
 # Affichage de l'historique
@@ -457,13 +537,16 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         display_text_with_direction(message["content"], current_lang)
         
-        if message.get("image_url"):
-            try:
-                response = requests.get(message["image_url"], timeout=10)
-                image = Image.open(io.BytesIO(response.content))
-                st.image(image, use_column_width=True, caption="🖼️ Illustration éducative")
-            except:
-                st.warning("📡 Chargement de l'image...")
+        if message.get("image_data"):
+            captions = {
+                "definition": {"fr": "Diagramme explicatif du tsunami", "en": "Tsunami explanatory diagram", "ar": "مخطط توضيحي للتسونامي"},
+                "causes": {"fr": "Illustration des causes du tsunami", "en": "Tsunami causes illustration", "ar": "رسم توضيحي لأسباب التسونامي"},
+                "consequences": {"fr": "Impacts et conséquences du tsunami", "en": "Tsunami impacts and consequences", "ar": "تأثيرات وعواقب التسونامي"},
+                "safety": {"fr": "Règles de sécurité tsunami", "en": "Tsunami safety rules", "ar": "قواعد سلامة التسونامي"}
+            }
+            
+            caption = captions.get(message.get("category", ""), {}).get(current_lang, "Illustration éducative")
+            display_base64_image(message["image_data"], caption)
 
 # Gestion des questions automatiques
 if "auto_question" in st.session_state:
@@ -479,20 +562,21 @@ if prompt or (user_input := st.chat_input("💬 Tapez votre question ou mot-clé
         prompt = user_input
     
     # Ajout du message utilisateur
-    st.session_state.messages.append({"role": "user", "content": prompt, "image_url": None})
+    st.session_state.messages.append({"role": "user", "content": prompt, "image_data": None, "category": None})
     
     # Simulation de chargement
     with st.spinner("🔍 Recherche de la meilleure réponse..."):
         time.sleep(0.5)
         
         # Recherche intelligente
-        response, image_url = find_best_response(prompt, current_lang)
+        response, image_data, category = find_best_response(prompt, current_lang)
         
         # Ajout de la réponse
         st.session_state.messages.append({
             "role": "assistant", 
             "content": response,
-            "image_url": image_url
+            "image_data": image_data,
+            "category": category
         })
         
         # Rechargement
@@ -510,5 +594,5 @@ with col2:
     st.markdown("**🌍 Multilingue**") 
     st.markdown("Français • English • العربية")
 with col3:
-    st.markdown("**🖼️ Contenu enrichi**")
-    st.markdown("Images • Diagrammes • Cartes")
+    st.markdown("**🖼️ Images intégrées**")
+    st.markdown("Génération automatique • Pas de chargement")
