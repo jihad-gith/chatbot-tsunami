@@ -3,7 +3,7 @@ import random
 import requests
 import io
 import base64
-from PIL import Image
+from PIL import Image, ImageDraw
 import time
 import re
 
@@ -103,29 +103,10 @@ LANGUAGES = {
     "🇸🇦 العربية": "ar"
 }
 
-# ==================== IMAGES ENCODÉES EN BASE64 ====================
-
-# Images tsunami encodées en base64 (images éducatives simplifiées)
-TSUNAMI_IMAGES = {
-    "definition": """
-    iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==
-    """,
-    "causes": """
-    iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADpgGAWkR3BgAAAABJRU5ErkJggg==
-    """,
-    "consequences": """
-    iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADgAGBZ8iY4gAAAABJRU5ErkJggg==
-    """,
-    "safety": """
-    iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPj/HwADggGBa1SfQgAAAABJRU5ErkJggg==
-    """
-}
+# ==================== FONCTIONS POUR IMAGES ====================
 
 def create_placeholder_image(category, language):
     """Crée une image placeholder éducative"""
-    from PIL import Image, ImageDraw, ImageFont
-    import io
-    
     # Créer une image avec un fond coloré
     img = Image.new('RGB', (400, 300), color=(73, 109, 137))
     d = ImageDraw.Draw(img)
@@ -442,13 +423,12 @@ def find_best_response(user_input, language):
     
     # Recherche dans TOUTES les langues pour chaque catégorie
     for category, data in KNOWLEDGE_BASE.items():
-        # Vérifier les mots-clés dans toutes les langues
-        for lang_keywords in data["keywords"].values():
-            for keyword in lang_keywords:
-                if keyword.lower() in user_input_lower:
-                    # Générer une image pour cette catégorie
-                    image_base64 = create_placeholder_image(category, language)
-                    return data["responses"][language], image_base64, category
+        # Vérifier les mots-clés dans la langue actuelle
+        for keyword in data["keywords"][language]:
+            if keyword.lower() in user_input_lower:
+                # Générer une image pour cette catégorie
+                image_base64 = create_placeholder_image(category, language)
+                return data["responses"][language], image_base64, category
     
     # Si aucune correspondance, réponse par défaut
     default_responses = {
@@ -482,7 +462,7 @@ with st.sidebar:
     
     st.markdown("</div>", unsafe_allow_html=True)
     
-    st.markdown('<div class="sidebar-content">', unsafe_about_html=True)
+    st.markdown('<div class="sidebar-content">', unsafe_allow_html=True)  # CORRIGÉ : unsafe_allow_html
     st.markdown("### 🎯 Questions Rapides")
     
     quick_questions = {
