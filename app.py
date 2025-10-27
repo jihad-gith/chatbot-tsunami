@@ -5,92 +5,92 @@ import io
 import base64
 from PIL import Image, ImageDraw, ImageFont
 import time
-import re
 
-# Configuration de la page avec design premium
+# Configuration de la page avec design moderne
 st.set_page_config(
-    page_title="🚨 Tsunami AI Expert", 
+    page_title="🌊 Tsunami Guard", 
     page_icon="🌊", 
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# ==================== STYLE CSS PERSONNALISÉ ====================
+# ==================== STYLE CSS MODERNE ====================
 st.markdown("""
 <style>
     .main-header {
-        font-size: 3.5rem;
-        color: #1f77b4;
+        font-size: 3rem;
+        color: #1e88e5;
         text-align: center;
-        margin-bottom: 0;
-        font-weight: bold;
-    }
-    .sub-header {
-        font-size: 1.2rem;
-        color: #666;
-        text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #1e88e5, #0d47a1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
     .chat-container {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background: white;
         padding: 25px;
         border-radius: 20px;
         margin-bottom: 20px;
-        border: 2px solid #e0e0e0;
+        border: 1px solid #e0e0e0;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     }
     .sidebar-content {
-        background: #f8f9fa;
-        padding: 20px;
-        border-radius: 15px;
-        margin: 10px 0;
-        border-left: 5px solid #1f77b4;
-    }
-    .emergency-box {
-        background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
-        color: white;
-        padding: 20px;
-        border-radius: 15px;
-        text-align: center;
-        font-weight: bold;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    .question-btn {
-        background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 25px;
-        margin: 8px 0;
-        width: 100%;
-        cursor: pointer;
-        transition: all 0.3s;
-        font-weight: bold;
-    }
-    .question-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    }
-    .response-box {
         background: white;
         padding: 20px;
         border-radius: 15px;
         margin: 10px 0;
-        border-left: 5px solid #1f77b4;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        border-left: 4px solid #1e88e5;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .emergency-box {
+        background: linear-gradient(135deg, #ff5252, #d32f2f);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        font-weight: bold;
+        box-shadow: 0 6px 20px rgba(255,82,82,0.3);
+    }
+    .question-btn {
+        background: linear-gradient(135deg, #4caf50, #2e7d32);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 12px;
+        margin: 6px 0;
+        width: 100%;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 600;
+        font-size: 0.9em;
+    }
+    .question-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(76,175,80,0.4);
     }
     .arabic-text {
         direction: rtl;
         text-align: right;
         font-size: 1.1em;
         line-height: 1.8;
+        font-family: 'Arial', sans-serif;
     }
-    .image-container {
-        text-align: center;
-        margin: 20px 0;
+    .keyword-tag {
+        display: inline-block;
+        background: #e3f2fd;
+        color: #1565c0;
+        padding: 4px 12px;
+        border-radius: 20px;
+        margin: 2px;
+        font-size: 0.8em;
+        font-weight: 500;
+    }
+    .language-selector {
+        background: #f5f5f5;
         padding: 15px;
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border-radius: 12px;
+        margin-bottom: 15px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -103,469 +103,420 @@ LANGUAGES = {
     "🇸🇦 العربية": "ar"
 }
 
-# ==================== FONCTIONS POUR IMAGES AMÉLIORÉES ====================
+# ==================== GÉNÉRATION D'IMAGES RÉALISTES ====================
 
-def create_educational_image(category, language):
-    """Crée une image éducative de haute qualité"""
-    # Créer une image plus grande et détaillée
-    img = Image.new('RGB', (600, 400), color=(240, 245, 249))
+def create_realistic_tsunami_image(category, language):
+    """Crée une image réaliste de tsunami selon la catégorie"""
+    # Créer une image haute qualité
+    img = Image.new('RGB', (800, 500), color=(240, 245, 249))
     d = ImageDraw.Draw(img)
     
     try:
-        # Essayer de charger une police, sinon utiliser la police par défaut
+        # Essayer de charger des polices plus grandes
         font_large = ImageFont.load_default()
-        font_medium = ImageFont.load_default()
+        font_title = ImageFont.load_default()
     except:
         font_large = ImageFont.load_default()
-        font_medium = ImageFont.load_default()
+        font_title = ImageFont.load_default()
     
-    # Couleurs
-    primary_color = (41, 128, 185)  # Bleu
-    secondary_color = (231, 76, 60)   # Rouge
-    accent_color = (46, 204, 113)     # Vert
-    text_color = (44, 62, 80)         # Gris foncé
+    # Couleurs modernes
+    primary_blue = (30, 136, 229)
+    danger_red = (229, 57, 53)
+    success_green = (67, 160, 71)
+    dark_text = (33, 33, 33)
+    light_bg = (250, 250, 250)
     
-    # Dessiner un en-tête
-    d.rectangle([0, 0, 600, 60], fill=primary_color)
+    # En-tête avec dégradé simulé
+    d.rectangle([0, 0, 800, 80], fill=primary_blue)
     
-    # Textes selon la catégorie et la langue
+    # Titres par catégorie
     titles = {
         "definition": {
-            "fr": "🌊 DIAGRAMME DU TSUNAMI", 
-            "en": "🌊 TSUNAMI DIAGRAM", 
-            "ar": "🌊 مخطط التسونامي"
+            "fr": "🌊 PHÉNOMÈNE TSUNAMI", 
+            "en": "🌊 TSUNAMI PHENOMENON", 
+            "ar": "🌊 ظاهرة التسونامي"
         },
         "causes": {
-            "fr": "📌 CAUSES DU TSUNAMI", 
-            "en": "📌 TSUNAMI CAUSES", 
-            "ar": "📌 أسباب التسونامي"
+            "fr": "📌 ORIGINES DU TSUNAMI", 
+            "en": "📌 TSUNAMI ORIGINS", 
+            "ar": "📌 مصادر التسونامي"
         },
         "consequences": {
-            "fr": "💥 CONSÉQUENCES DU TSUNAMI", 
-            "en": "💥 TSUNAMI CONSEQUENCES", 
-            "ar": "💥 عواقب التسونامي"
+            "fr": "💥 IMPACTS DÉVASTATEURS", 
+            "en": "💥 DEVASTATING IMPACTS", 
+            "ar": "💥 الآثار المدمرة"
         },
         "safety": {
-            "fr": "🛡️ SÉCURITÉ TSUNAMI", 
-            "en": "🛡️ TSUNAMI SAFETY", 
-            "ar": "🛡️ سلامة التسونامي"
+            "fr": "🛡️ GUIDE DE SURVIE", 
+            "en": "🛡️ SURVIVAL GUIDE", 
+            "ar": "🛡️ دليل النجاة"
+        },
+        "reaction": {
+            "fr": "🚨 URGENCE: QUE FAIRE?", 
+            "en": "🚨 EMERGENCY: WHAT TO DO?", 
+            "ar": "🚨 الطوارئ: ماذا أفعل؟"
         }
     }
     
-    # Dessiner le titre
     title = titles[category][language]
-    d.text((300, 30), title, fill=(255, 255, 255), anchor="mm", font=font_large)
+    d.text((400, 40), title, fill=(255, 255, 255), anchor="mm", font=font_title)
     
-    # Dessiner des éléments éducatifs détaillés selon la catégorie
+    # Contenu visuel selon la catégorie
     if category == "definition":
-        # Diagramme de vague tsunami
-        d.rectangle([100, 100, 500, 250], outline=primary_color, width=3)
+        # Diagramme scientifique réaliste
+        # Océan
+        d.rectangle([50, 150, 750, 300], fill=(33, 150, 243, 100), outline=primary_blue, width=3)
         
-        # Ligne d'eau
-        d.line([100, 175, 500, 175], fill=primary_color, width=2)
-        d.text((80, 170), "Niveau mer", fill=text_color, anchor="rm")
+        # Vague tsunami
+        wave_points = [(50, 250), (200, 180), (400, 160), (600, 190), (750, 250)]
+        d.line(wave_points, fill=danger_red, width=4)
         
-        # Flèche de hauteur
-        d.line([150, 175, 150, 120], fill=secondary_color, width=2)
-        d.line([145, 125, 150, 120], fill=secondary_color, width=2)
-        d.line([155, 125, 150, 120], fill=secondary_color, width=2)
-        d.text((170, 145), "Hauteur vague\n30m max", fill=secondary_color)
+        # Flèches explicatives
+        d.line((400, 160, 400, 120), fill=dark_text, width=2)
+        d.text((410, 110), "30m", fill=danger_red)
         
-        # Flèche de longueur
-        d.line([100, 280, 500, 280], fill=accent_color, width=2)
-        d.line([495, 275, 500, 280], fill=accent_color, width=2)
-        d.line([495, 285, 500, 280], fill=accent_color, width=2)
-        d.text((300, 300), "Longueur d'onde: 100-200km", fill=accent_color, anchor="mm")
+        d.line((50, 350, 750, 350), fill=dark_text, width=2)
+        d.text((400, 370), "200 km", fill=primary_blue)
         
     elif category == "causes":
-        # Diagramme des causes
-        y_positions = [120, 180, 240, 300]
+        # Visualisation des causes
         causes = [
-            ("Séisme sous-marin", "90%"),
-            ("Glissement terrain", "5%"),
-            ("Éruption volcanique", "4%"),
-            ("Impact météorite", "1%")
+            ("SÉISME\n90%", 150, 180),
+            ("GLISSEMENT\n5%", 350, 180), 
+            ("VOLCAN\n4%", 550, 180),
+            ("MÉTÉORITE\n1%", 400, 300)
         ]
         
-        for i, (cause, percentage) in enumerate(causes):
-            x_start = 150
-            bar_width = int(300 * (int(percentage.strip('%')) / 100))
+        for text, x, y in causes:
+            d.ellipse([x-60, y-60, x+60, y+60], outline=primary_blue, width=3)
+            d.text((x, y), text, fill=dark_text, anchor="mm", font=font_large)
             
-            # Barre de pourcentage
-            d.rectangle([x_start, y_positions[i], x_start + bar_width, y_positions[i] + 30], 
-                       fill=primary_color, outline=text_color, width=1)
-            
-            # Texte
-            d.text((x_start - 10, y_positions[i] + 15), cause, fill=text_color, anchor="rm")
-            d.text((x_start + bar_width + 10, y_positions[i] + 15), percentage, 
-                  fill=secondary_color, anchor="lm")
-        
     elif category == "consequences":
-        # Icônes des conséquences
-        consequences = [
-            ("👥 Victimes", "230k (2004)"),
-            ("🏠 Destructions", "Infrastructures"),
-            ("💰 Coût", "Milliards $"),
-            ("🌍 Environnement", "Pollution")
+        # Icônes d'impacts
+        impacts = [
+            ("🏠", "Destruction", 200, 180),
+            ("👥", "Victimes", 400, 180),
+            ("💰", "Coût économique", 600, 180),
+            ("🌍", "Pollution", 300, 300),
+            ("😔", "Traumatisme", 500, 300)
         ]
         
-        for i, (consequence, detail) in enumerate(consequences):
-            x = 150 + (i % 2) * 200
-            y = 120 + (i // 2) * 100
+        for emoji, text, x, y in impacts:
+            d.text((x, y-30), emoji, fill=dark_text, anchor="mm", font=font_large)
+            d.text((x, y+20), text, fill=dark_text, anchor="mm", font=font_large)
             
-            # Cercle avec icône
-            d.ellipse([x-30, y-30, x+30, y+30], outline=secondary_color, width=2)
-            d.text((x, y-5), consequence.split()[0], fill=text_color, anchor="mm")
-            d.text((x, y+40), detail, fill=text_color, anchor="mm", font=font_medium)
-            
-    elif category == "safety":
+    elif category == "safety" or category == "reaction":
         # Étapes de sécurité
         steps = [
-            ("1. S'éloigner", "Du rivage"),
-            ("2. Monter", "> 15m hauteur"),
-            ("3. Alerter", "Les personnes"),
-            ("4. Ne pas prendre", "La voiture")
+            ("1. S'ÉLOIGNER", "Du rivage", 200, 160),
+            ("2. MONTER", "> 15m altitude", 400, 160),
+            ("3. ALERTER", "Les autres", 600, 160),
+            ("4. NE PAS PRENDRE", "La voiture", 300, 280),
+            ("5. RESTER INFORMÉ", "Médias officiels", 500, 280)
         ]
         
-        for i, (step, detail) in enumerate(steps):
-            x = 150
-            y = 120 + i * 70
-            
-            # Numéro dans un cercle
-            d.ellipse([x-25, y-25, x+25, y+25], fill=accent_color, outline=accent_color)
-            d.text((x, y), str(i+1), fill=(255, 255, 255), anchor="mm", font=font_large)
-            
-            # Texte de l'étape
-            d.text((x+50, y-10), step, fill=text_color, anchor="lm", font=font_large)
-            d.text((x+50, y+10), detail, fill=text_color, anchor="lm", font=font_medium)
+        for step, detail, x, y in steps:
+            d.rectangle([x-80, y-40, x+80, y+40], fill=light_bg, outline=success_green, width=2)
+            d.text((x, y-15), step, fill=dark_text, anchor="mm", font=font_large)
+            d.text((x, y+15), detail, fill=primary_blue, anchor="mm", font=font_large)
     
     # Pied de page
-    d.rectangle([0, 370, 600, 400], fill=(52, 73, 94))
-    d.text((300, 385), "Tsunami AI Expert - Illustration Éducative", 
-          fill=(255, 255, 255), anchor="mm", font=font_medium)
+    d.rectangle([0, 450, 800, 500], fill=(66, 66, 66))
+    d.text((400, 475), "Tsunami Guard - Sécurité & Prévention", 
+          fill=(255, 255, 255), anchor="mm", font=font_large)
     
     # Convertir en base64
     buffered = io.BytesIO()
     img.save(buffered, format="PNG", quality=95)
-    img_str = base64.b64encode(buffered.getvalue()).decode()
-    
-    return img_str
+    return base64.b64encode(buffered.getvalue()).decode()
 
-def display_base64_image(base64_string, caption):
-    """Affiche une image encodée en base64 - CORRIGÉ avec use_container_width"""
+def display_image(base64_string, caption):
+    """Affiche une image avec le bon paramètre"""
     try:
-        # Décoder l'image base64
         image_data = base64.b64decode(base64_string)
         image = Image.open(io.BytesIO(image_data))
-        
-        # Afficher l'image avec Streamlit - CORRECTION APPLIQUÉE
-        st.image(image, caption=caption, use_container_width=True)  # use_container_width au lieu de use_column_width
-    except Exception as e:
-        # En cas d'erreur, afficher un message
-        st.info("🖼️ *Illustration éducative générée*")
+        st.image(image, caption=caption, use_container_width=True)
+    except:
+        st.info("🖼️ Illustration générée")
 
-# ==================== BASE DE CONNAISSANCES AVANCÉE ====================
+# ==================== BASE DE CONNAISSANCES COMPLÈTE ====================
 
 KNOWLEDGE_BASE = {
     "definition": {
         "keywords": {
-            "fr": ["définition", "qu'est-ce", "c'est quoi", "explique", "définir", "quoi", "image", "diagramme", "schéma"],
-            "en": ["definition", "what is", "explain", "define", "what", "image", "diagram", "schema"],
-            "ar": ["تعريف", "ما هو", "شرح", "ماهو", "ما", "صورة", "مخطط", "رسم"]
+            "fr": ["définition", "qu'est-ce", "c'est quoi", "explique", "définir", "quoi", "tsunami"],
+            "en": ["definition", "what is", "explain", "define", "what", "tsunami"],
+            "ar": ["تعريف", "ما هو", "شرح", "ماهو", "ما", "تسونامي"]
         },
         "responses": {
             "fr": """
-🌊 **DÉFINITION DU TSUNAMI**
+**🌊 COMPRENDRE LE TSUNAMI**
 
-**Un tsunami** est une série de vagues océaniques extrêmement longues générées par le déplacement soudain d'un grand volume d'eau.
+Un tsunami est une série de vagues océaniques extrêmement longues générées par le déplacement soudain d'un grand volume d'eau.
 
-**Caractéristiques principales :**
-• Longueur d'onde : 100-200 km (vs 100m pour vagues normales)
-• Vitesse : 500-800 km/h en eau profonde
-• Hauteur : 1m en mer → 10-30m près des côtes
-• Période : 10-60 minutes entre vagues
+**📊 CARACTÉRISTIQUES CLÉS :**
+- **Vitesse** : 500-800 km/h (comme un avion)
+- **Hauteur** : 1m en mer → 10-30m sur les côtes  
+- **Longueur** : 100-200 km (vs 100m vague normale)
+- **Énergie** : Équivalente à des milliers de bombes atomiques
 
-**Différence avec une vague normale :**
-Ce n'est PAS une simple grosse vague, mais un mouvement de toute la colonne d'eau du fond à la surface.
+**⚠️ CE N'EST PAS :** Une simple grosse vague, mais le mouvement de TOUTE la colonne d'eau.
             """,
             "en": """
-🌊 **TSUNAMI DEFINITION**
+**🌊 UNDERSTANDING TSUNAMI**
 
-**A tsunami** is a series of extremely long ocean waves generated by the sudden displacement of a large volume of water.
+A tsunami is a series of extremely long ocean waves generated by the sudden displacement of a large volume of water.
 
-**Key characteristics:**
-• Wavelength: 100-200 km (vs 100m for normal waves)
-• Speed: 500-800 km/h in deep water
-• Height: 1m at sea → 10-30m near coasts
-• Period: 10-60 minutes between waves
+**📊 KEY CHARACTERISTICS:**
+- **Speed**: 500-800 km/h (like a jet)
+- **Height**: 1m at sea → 10-30m on coasts
+- **Length**: 100-200 km (vs 100m normal wave)  
+- **Energy**: Equivalent to thousands of atomic bombs
 
-**Difference from normal waves:**
-It is NOT just a big wave, but movement of the entire water column from bottom to surface.
+**⚠️ IT IS NOT:** Just a big wave, but movement of the ENTIRE water column.
             """,
             "ar": """
-🌊 **تعريف التسونامي**
+**🌊 فهم التسونامي**
 
-**التسونامي** هو سلسلة من أمواج المحيط الطويلة جدًا الناتجة عن الانزياح المفاجئ لحجم كبير من الماء.
+التسونامي هو سلسلة من أمواج المحيط الطويلة جدًا الناتجة عن الانزياح المفاجئ لحجم كبير من الماء.
 
-**الخصائص الرئيسية:**
-• الطول الموجي: 100-200 كم (مقابل 100م للأمواج العادية)
-• السرعة: 500-800 كم/ساعة في المياه العميقة
-• الارتفاع: 1م في البحر → 10-30م بالقرب من السواحل
-• الفترة: 10-60 دقيقة بين الأمواج
+**📊 الخصائص الرئيسية:**
+- **السرعة**: 500-800 كم/ساعة (مثل الطائرة)
+- **الارتفاع**: 1م في البحر → 10-30م على السواحل
+- **الطول**: 100-200 كم (مقابل 100م موجة عادية)
+- **الطاقة**: تعادل آلاف القنابل الذرية
 
-**الفرق عن الموج العادي:**
-ليس مجرد موجة كبيرة، ولكن حركة عمود الماء بالكامل من القاع إلى السطح.
+**⚠️ ليس مجرد:** موجة كبيرة، ولكن حركة عمود الماء بالكامل.
             """
         }
     },
     
     "causes": {
         "keywords": {
-            "fr": ["cause", "provoque", "origine", "pourquoi", "séisme", "tremblement", "volcan", "image causes"],
-            "en": ["cause", "causes", "why", "origin", "earthquake", "volcano", "trigger", "cause image"],
-            "ar": ["سبب", "أسباب", "لماذا", "مصدر", "زلزال", "بركان", "يتسبب", "صورة أسباب"]
+            "fr": ["cause", "provoque", "origine", "pourquoi", "séisme", "tremblement", "volcan", "glissement"],
+            "en": ["cause", "causes", "why", "origin", "earthquake", "volcano", "landslide", "trigger"],
+            "ar": ["سبب", "أسباب", "لماذا", "مصدر", "زلزال", "بركان", "انهيار", "يتسبب"]
         },
         "responses": {
             "fr": """
-📌 **CAUSES DES TSUNAMIS**
+**📌 ORIGINES PRINCIPALES :**
 
-**Principales causes (par ordre de fréquence) :**
+1. **SÉISMES SOUS-MARINS** (90% des cas)
+   - Magnitude > 7.0 nécessaire
+   - Mouvement vertical des failles
+   - Exemple : Japon 2011 (magnitude 9.0)
 
-1. **Séismes sous-marins (90% des cas)**
-   • Magnitude > 7.0 sur l'échelle de Richter
-   • Mouvement vertical des failles
-   • Exemple : Japon 2011 (magnitude 9.0)
+2. **GLISSEMENTS DE TERRAIN** 
+   - Effondrement de sédiments sous-marins  
+   - Volumes énormes (km³)
 
-2. **Glissements de terrain sous-marins**
-   • Effondrement de sédiments
-   • Volumes pouvant atteindre des km³
+3. **ÉRUPTIONS VOLCANIQUES**
+   - Effondrement de volcans sous-marins
+   - Projections dans l'océan
 
-3. **Éruptions volcaniques**
-   • Effondrement de volcans sous-marins
-   • Pyroclastiques entrant dans l'eau
+4. **IMPACTS EXTRATERRESTRES**
+   - Météorites (très rare)
 
-4. **Impacts de météorites**
-   • Événements rares mais dévastateurs
-
-**Mécanisme :** Déplacement vertical du fond marin → Déplacement de la colonne d'eau → Formation d'ondes.
+**🔬 MÉCANISME :** Déplacement eau → Ondes → Amplification côtière
             """,
             "en": """
-📌 **TSUNAMI CAUSES**
+**📌 MAIN ORIGINS:**
 
-**Main causes (by frequency order):**
+1. **UNDERSEA EARTHQUAKES** (90% of cases)
+   - Magnitude > 7.0 required
+   - Vertical fault movement  
+   - Example: Japan 2011 (magnitude 9.0)
 
-1. **Undersea earthquakes (90% of cases)**
-   • Magnitude > 7.0 on Richter scale
-   • Vertical fault movement
-   • Example: Japan 2011 (magnitude 9.0)
+2. **SUBMARINE LANDSLIDES**
+   - Underwater sediment collapse
+   - Huge volumes (km³)
 
-2. **Submarine landslides**
-   • Sediment collapse
-   • Volumes up to km³
+3. **VOLCANIC ERUPTIONS** 
+   - Underwater volcano collapse
+   - Ocean projections
 
-3. **Volcanic eruptions**
-   • Underwater volcano collapse
-   • Pyroclastics entering water
+4. **EXTRATERRESTRIAL IMPACTS**
+   - Meteorites (very rare)
 
-4. **Meteorite impacts**
-   • Rare but devastating events
-
-**Mechanism:** Vertical seabed displacement → Water column displacement → Wave formation.
+**🔬 MECHANISM:** Water displacement → Waves → Coastal amplification
             """,
             "ar": """
-📌 **أسباب التسونامي**
+**📌 المصادر الرئيسية:**
 
-**الأسباب الرئيسية (حسب الترتيب التكراري):**
-
-1. **الزلازل تحت البحر (90٪ من الحالات)**
-   • قوة أكبر من 7.0 على مقياس ريختر
-   • حركة الصدوع العمودية
-   • مثال: اليابان 2011 (قوة 9.0)
+1. **الزلازل تحت البحر** (90٪ من الحالات)
+   - требуется قوة أكبر من 7.0
+   - حركة الصدوع العمودية
+   - مثال: اليابان 2011 (قوة 9.0)
 
 2. **الانهيارات الأرضية تحت البحر**
-   • انهيار الرواسب
-   • أحجام تصل إلى كيلومترات مكعبة
+   - انهيار الرواسب تحت الماء
+   - أحجام هائلة (كم³)
 
 3. **الثورات البركانية**
-   • انهيار البراكين تحت الماء
-   • دخول المواد البركانية إلى الماء
+   - انهيار البراكين تحت الماء
+   - القذف في المحيط
 
-4. **اصطدام النيازك**
-   • أحداث نادرة ولكن مدمرة
+4. **التأثيرات خارج الأرض**
+   - النيازك (نادر جدًا)
 
-**الآلية:** الانزياح الرأسي لقاع البحر → إزاحة عمود الماء → تكوين الموج.
+**🔬 الآلية:** إزاحة الماء → موج → تضخيم ساحلي
             """
         }
     },
     
     "consequences": {
         "keywords": {
-            "fr": ["conséquence", "impact", "effet", "dégât", "destruction", "victime", "image impacts"],
-            "en": ["consequence", "impact", "effect", "damage", "destruction", "victim", "impact image"],
-            "ar": ["عاقبة", "تأثير", "أثر", "ضرر", "دمار", "ضحية", "صورة تأثيرات"]
+            "fr": ["conséquence", "impact", "effet", "dégât", "destruction", "victime", "dévastation"],
+            "en": ["consequence", "impact", "effect", "damage", "destruction", "victim", "devastation"],
+            "ar": ["عاقبة", "تأثير", "أثر", "ضرر", "دمار", "ضحية", "تدمير"]
         },
         "responses": {
             "fr": """
-💥 **CONSÉQUENCES DES TSUNAMIS**
+**💥 IMPACTS DÉVASTATEURS :**
 
-**Impacts immédiats :**
-• **Humain :** Milliers de victimes par noyade, traumatismes
-• **Matériel :** Destruction complète des infrastructures côtières
-• **Économique :** Pertes de plusieurs milliards de dollars
+**IMMÉDIATS :**
+- **Humain** : Noyades, traumatismes physiques
+- **Matériel** : Infrastructure côtière détruite
+- **Économique** : Pertes milliardaires
 
-**Impacts à long terme :**
-• **Environnemental :** Salinisation des terres, pollution
-• **Social :** Déplacement de populations, traumatismes psychologiques
-• **Sanitaire :** Risques d'épidémies, eau contaminée
+**À LONG TERME :**
+- **Environnement** : Pollution, salinisation sols
+- **Social** : Déplacement populations, traumatismes
+- **Sanitaire** : Maladies, eau contaminée
 
-**Exemples historiques :**
-• 2004 Océan Indien : 230,000 victimes
-• 2011 Japon : 18,000 victimes + catastrophe nucléaire
+**📈 EXEMPLES HISTORIQUES :**
+- 2004 Océan Indien : 230,000 morts
+- 2011 Japon : 18,000 morts + Fukushima
             """,
             "en": """
-💥 **TSUNAMI CONSEQUENCES**
+**💥 DEVASTATING IMPACTS:**
 
-**Immediate impacts:**
-• **Human:** Thousands of victims by drowning, trauma
-• **Material:** Complete destruction of coastal infrastructure
-• **Economic:** Losses of several billion dollars
+**IMMEDIATE:**
+- **Human**: Drowning, physical trauma  
+- **Material**: Coastal infrastructure destroyed
+- **Economic**: Billion-dollar losses
 
-**Long-term impacts:**
-• **Environmental:** Land salinization, pollution
-• **Social:** Population displacement, psychological trauma
-• **Health:** Epidemic risks, contaminated water
+**LONG-TERM:**
+- **Environment**: Pollution, soil salinization
+- **Social**: Population displacement, trauma
+- **Health**: Diseases, contaminated water
 
-**Historical examples:**
-• 2004 Indian Ocean: 230,000 victims
-• 2011 Japan: 18,000 victims + nuclear disaster
+**📈 HISTORICAL EXAMPLES:**
+- 2004 Indian Ocean: 230,000 deaths
+- 2011 Japan: 18,000 deaths + Fukushima
             """,
             "ar": """
-💥 **عواقب التسونامي**
+**💥 الآثار المدمرة:**
 
-**الآثار الفورية:**
-• **البشرية:** آلاف الضحايا بسبب الغرق والصدمات
-• **المادية:** تدمير كامل للبنية التحتية الساحلية
-• **الاقتصادية:** خسائر بمليارات الدولارات
+**فورية:**
+- **بشرية**: غرق، صدمات جسدية
+- **مادية**: تدمير البنية التحتية الساحلية
+- **اقتصادية**: خسائر بمليارات الدولارات
 
-**الآثار طويلة المدى:**
-• **البيئية:** تمليح الأراضي، التلوث
-• **الاجتماعية:** نزوح السكان، الصدمات النفسية
-• **الصحية:** مخاطر الأوبئة، تلوث المياه
+**طويلة الأمد:**
+- **بيئية**: تلوث، تمليح التربة
+- **اجتماعية**: نزوح السكان، صدمات
+- **صحية**: أمراض، مياه ملوثة
 
-**أمثلة تاريخية:**
-• 2004 المحيط الهندي: 230,000 ضحية
-• 2011 اليابان: 18,000 ضحية + كارثة نووية
+**📈 أمثلة تاريخية:**
+- 2004 المحيط الهندي: 230,000 وفاة
+- 2011 اليابان: 18,000 وفاة + فوكوشيما
             """
         }
     },
     
-    "safety": {
+    "reaction": {
         "keywords": {
-            "fr": ["sécurité", "danger", "que faire", "évacuer", "alerte", "protéger", "survie", "image sécurité"],
-            "en": ["safety", "danger", "what to do", "evacuate", "alert", "protect", "survival", "safety image"],
-            "ar": ["أمان", "خطر", "ماذا أفعل", "إخلاء", "إنذار", "حماية", "نجاة", "صورة سلامة"]
+            "fr": ["réagir", "faire", "danger", "urgence", "évacuer", "alerte", "protéger", "survie", "sauver"],
+            "en": ["react", "do", "danger", "emergency", "evacuate", "alert", "protect", "survival", "save"],
+            "ar": ["يتفاعل", "افعل", "خطر", "طوارئ", "إخلاء", "إنذار", "حماية", "نجاة", "أنقذ"]
         },
         "responses": {
             "fr": """
-🛡️ **SÉCURITÉ - RÈGLES VITALES**
+**🚨 GUIDE DE SURVIE IMMÉDIAT :**
 
-**Signes d'alerte naturels :**
-• Séisme prolongé (>20 secondes)
-• Retrait soudain et inhabituel de la mer
-• Bruit rugissant venant de l'océan
+**SIGNES D'ALERTE :**
+- Séisme prolongé (>20 secondes)
+- Retrait soudain de la mer
+- Bruit de locomotive
 
-**Actions IMMÉDIATES :**
-1. 🏃 **Éloignez-vous du rivage** - Ne restez pas pour observer
-2. ⬆️ **Gagnez les hauteurs** - Minimum 15m, idéalement 30m
-3. 🚫 **Ne prenez pas votre voiture** - Elle crée des embouteillages mortels
-4. 📞 **Alertez les personnes autour** - Criez pour prévenir
-5. 📱 **Restez informé** - Suivez les consignes officielles
+**ACTION IMMÉDIATE :**
+1. 🏃 **FUYEZ** vers l'intérieur des terres
+2. ⬆️ **MONTEZ** > 15m d'altitude
+3. 📢 **ALERTEZ** les personnes autour
+4. 🚫 **NE PRENEZ PAS** votre voiture
+5. 📱 **SUIVEZ** les consignes officielles
 
-**Numéros d'urgence :** 112 (Europe) • 911 (USA) • 999 (UK)
+**⏱️ TEMPS CRITIQUE :** 5-30 minutes pour évacuer
+**📞 URGENCE :** 112 / 911 / 999
             """,
             "en": """
-🛡️ **SAFETY - VITAL RULES**
+**🚨 IMMEDIATE SURVIVAL GUIDE:**
 
-**Natural warning signs:**
-• Prolonged earthquake (>20 seconds)
-• Sudden unusual sea retreat
-• Roaring noise from ocean
+**WARNING SIGNS:**
+- Prolonged earthquake (>20 seconds)  
+- Sudden sea retreat
+- Locomotive-like noise
 
-**IMMEDIATE actions:**
-1. 🏃 **Move away from shore** - Don't stay to observe
-2. ⬆️ **Reach high ground** - Minimum 15m, ideally 30m
-3. 🚫 **Don't take your car** - Creates deadly traffic jams
-4. 📞 **Alert people around** - Shout to warn
-5. 📱 **Stay informed** - Follow official instructions
+**IMMEDIATE ACTION:**
+1. 🏃 **RUN** inland
+2. ⬆️ **CLIMB** > 15m elevation  
+3. 📢 **ALERT** people around
+4. 🚫 **DON'T TAKE** your car
+5. 📱 **FOLLOW** official instructions
 
-**Emergency numbers:** 112 (Europe) • 911 (USA) • 999 (UK)
+**⏱️ CRITICAL TIME:** 5-30 minutes to evacuate
+**📞 EMERGENCY:** 112 / 911 / 999
             """,
             "ar": """
-🛡️ **السلامة - قواعد حيوية**
+**🚨 دليل النجاة الفوري:**
 
-**علامات التحذير الطبيعية:**
-• زلزال طويل الأمد (>20 ثانية)
-• انسحاب مفاجئ وغير عادي للبحر
-• ضجيج هدير قادم من المحيط
+**علامات التحذير:**
+- زلزال طويل الأمد (>20 ثانية)
+- انسحاب مفاجئ للبحر
+- ضجيج مثل القطار
 
 **الإجراءات الفورية:**
-1. 🏃 **ابتعد عن الشاطئ** - لا تبقى للمراقبة
-2. ⬆️ **اتجه إلى المرتفعات** - 15 متر كحد أدنى، 30 متر بشكل مثالي
-3. 🚫 **لا تستخدم سيارتك** - تسبب اختناقات مرورية مميتة
-4. 📞 **حذر الأشخاص حولك** - اصرخ للتحذير
-5. 📱 **ابق على اطلاع** - اتبع التعليمات الرسمية
+1. 🏃 **اهرب** إلى الداخل
+2. ⬆️ **اصعد** > 15م ارتفاعًا
+3. 📢 **حذر** الأشخاص حولك
+4. 🚫 **لا تأخذ** سيارتك
+5. 📱 **اتبع** التعليمات الرسمية
 
-**أرقام الطوارئ:** 112 (أوروبا) • 911 (الولايات المتحدة) • 999 (المملكة المتحدة)
+**⏱️ الوقت الحرج:** 5-30 دقيقة للإخلاء
+**📞 الطوارئ:** 112 / 911 / 999
             """
         }
     }
 }
 
-# ==================== SYSTÈME INTELLIGENT DE RECHERCHE ====================
+# ==================== SYSTÈME DE RECHERCHE INTELLIGENT ====================
 
-def find_best_response(user_input, language):
-    """Trouve la meilleure réponse basée sur les mots-clés dans toutes les langues"""
+def find_response(user_input, language):
+    """Trouve la réponse la plus pertinente"""
     user_input_lower = user_input.lower()
     
-    # Vérifier d'abord les demandes explicites d'images
-    image_keywords = {
-        "fr": ["image", "photo", "diagramme", "schéma", "illustration", "montre", "voir"],
-        "en": ["image", "picture", "diagram", "schema", "illustration", "show", "see"],
-        "ar": ["صورة", "رسم", "مخطط", "توضيح", "أرني", "عرض"]
-    }
+    # Détection de demande d'image
+    image_words = ["image", "photo", "diagramme", "schéma", "illustration", "صورة", "رسم", "مخطط"]
+    wants_image = any(word in user_input_lower for word in image_words)
     
-    has_image_request = any(keyword in user_input_lower for keyword in image_keywords[language])
-    
-    # Recherche dans la langue actuelle pour chaque catégorie
+    # Recherche par catégorie
     for category, data in KNOWLEDGE_BASE.items():
         for keyword in data["keywords"][language]:
-            if keyword.lower() in user_input_lower:
-                # Générer une image pour cette catégorie
-                image_base64 = create_educational_image(category, language)
-                return data["responses"][language], image_base64, category
+            if keyword in user_input_lower:
+                image_data = create_realistic_tsunami_image(category, language) if wants_image else None
+                return data["responses"][language], image_data, category
     
-    # Si demande d'image explicite mais pas de catégorie trouvée
-    if has_image_request:
-        # Générer une image générale
-        image_base64 = create_educational_image("definition", language)
-        default_image_responses = {
-            "fr": "🖼️ **Voici une illustration éducative sur les tsunamis.**\n\nPosez une question plus spécifique comme 'image causes tsunami' ou 'diagramme sécurité' pour des illustrations ciblées.",
-            "en": "🖼️ **Here's an educational illustration about tsunamis.**\n\nAsk a more specific question like 'tsunami causes image' or 'safety diagram' for targeted illustrations.",
-            "ar": "🖼️ **ها هي رسم توضيحي تعليمي عن التسونامي.**\n\nاطرح سؤالاً أكثر تحديداً مثل 'صورة أسباب التسونامي' أو 'مخطط السلامة' للحصول على رسوم توضيحية مستهدفة."
-        }
-        return default_image_responses[language], image_base64, "definition"
-    
-    # Si aucune correspondance, réponse par défaut
+    # Réponse par défaut
     default_responses = {
-        "fr": "🤖 **Assistant Tsunami:** Posez-moi sur : définition, causes, conséquences ou sécurité. Essayez 'définition tsunami' ou 'image sécurité tsunami'",
-        "en": "🤖 **Tsunami Assistant:** Ask me about: definition, causes, consequences or safety. Try 'tsunami definition' or 'tsunami safety image'",
-        "ar": "🤖 **مساعد التسونامي:** اسألني عن: التعريف، الأسباب، العواقب أو السلامة. جرب 'تعريف التسونامي' أو 'صورة سلامة التسونامي'"
+        "fr": "🤖 **Tsunami Guard** - Posez-moi sur : définition, causes, conséquences, ou comment réagir. Utilisez des mots-clés !",
+        "en": "🤖 **Tsunami Guard** - Ask me about: definition, causes, consequences, or how to react. Use keywords!",
+        "ar": "🤖 **حارس التسونامي** - اسألني عن: التعريف، الأسباب، العواقب، أو كيفية التفاعل. استخدم الكلمات المفتاحية!"
     }
-    
     return default_responses[language], None, None
 
-def display_text_with_direction(text, language):
-    """Affiche le texte avec la bonne direction (RTL pour l'arabe)"""
+def display_text(text, language):
+    """Affiche le texte avec la bonne direction"""
     if language == "ar":
         st.markdown(f'<div class="arabic-text">{text}</div>', unsafe_allow_html=True)
     else:
@@ -573,54 +524,67 @@ def display_text_with_direction(text, language):
 
 # ==================== INTERFACE STREAMLIT ====================
 
-# Header personnalisé
-st.markdown('<div class="main-header">🚨 Tsunami AI Expert</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">Système Expert Multilingue • Génération d\'Images • Réponses Intelligentes</div>', unsafe_allow_html=True)
+# Header épuré
+st.markdown('<div class="main-header">🌊 Tsunami Guard</div>', unsafe_allow_html=True)
 
 # Sidebar moderne
 with st.sidebar:
-    st.markdown('<div class="sidebar-content">', unsafe_allow_html=True)
-    
-    st.markdown("### 🌍 Sélection de la Langue")
-    selected_language = st.radio("", list(LANGUAGES.keys()))
+    st.markdown('<div class="language-selector">', unsafe_allow_html=True)
+    st.markdown("### 🌍 Choisir la langue")
+    selected_language = st.radio("", list(LANGUAGES.keys()), label_visibility="collapsed")
     current_lang = LANGUAGES[selected_language]
-    
     st.markdown("</div>", unsafe_allow_html=True)
     
     st.markdown('<div class="sidebar-content">', unsafe_allow_html=True)
-    st.markdown("### 🎯 Questions Rapides")
+    st.markdown("### 💡 Questions types")
     
-    quick_questions = {
+    sample_questions = {
         "fr": [
-            "Image définition tsunami",
-            "Diagramme causes tsunami", 
-            "Illustration conséquences",
-            "Schéma sécurité tsunami"
+            "Définition d'un tsunami",
+            "Causes principales",
+            "Conséquences et impacts", 
+            "Comment réagir face à un tsunami",
+            "Image d'un tsunami"
         ],
         "en": [
-            "Tsunami definition image",
-            "Tsunami causes diagram",
-            "Consequences illustration", 
-            "Tsunami safety schema"
+            "Tsunami definition",
+            "Main causes",
+            "Consequences and impacts",
+            "How to react to tsunami", 
+            "Tsunami image"
         ],
         "ar": [
-            "صورة تعريف التسونامي",
-            "مخطط أسباب التسونامي",
-            "رسم عواقب التسونامي",
-            "رسم سلامة التسونامي"
+            "تعريف التسونامي",
+            "الأسباب الرئيسية",
+            "العواقب والآثار",
+            "كيفية التفاعل مع التسونامي",
+            "صورة تسونامي"
         ]
     }
     
-    for question in quick_questions[current_lang]:
-        if st.button(question, key=f"btn_{question}"):
+    for question in sample_questions[current_lang]:
+        if st.button(question, key=f"q_{question}"):
             st.session_state.auto_question = question
     
     st.markdown("</div>", unsafe_allow_html=True)
     
+    st.markdown('<div class="sidebar-content">', unsafe_allow_html=True)
+    st.markdown("### 🔍 Mots-clés utiles")
+    
+    keyword_examples = {
+        "fr": ["définition", "causes", "conséquences", "réagir", "image"],
+        "en": ["definition", "causes", "consequences", "react", "image"],
+        "ar": ["تعريف", "أسباب", "عواقب", "يتفاعل", "صورة"]
+    }
+    
+    keywords_html = " ".join([f'<span class="keyword-tag">{kw}</span>' for kw in keyword_examples[current_lang]])
+    st.markdown(f'<div>{keywords_html}</div>', unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+    
     st.markdown('<div class="emergency-box">', unsafe_allow_html=True)
     st.markdown("### 🚨 URGENCE")
-    st.markdown("**Éloignez-vous du rivage IMMÉDIATEMENT!**")
-    st.markdown("112 • 911 • 999")
+    st.markdown("**Éloignement immédiat du rivage**")
+    st.markdown("**112 • 911 • 999**")
     st.markdown("</div>", unsafe_allow_html=True)
 
 # Zone de chat principale
@@ -629,31 +593,29 @@ st.markdown('<div class="chat-container">', unsafe_allow_html=True)
 # Historique de conversation
 if "messages" not in st.session_state:
     welcome_messages = {
-        "fr": "🤖 **Bienvenue!** Je suis votre expert Tsunami. Demandez-moi des informations ou générez des images éducatives en utilisant des mots comme 'image', 'diagramme' ou 'illustration'.",
-        "en": "🤖 **Welcome!** I'm your Tsunami expert. Ask me for information or generate educational images using words like 'image', 'diagram' or 'illustration'.",
-        "ar": "🤖 **أهلاً وسهلاً!** أنا خبير التسونامي الخاص بك. اسألني عن المعلومات أو أنشئ صورًا تعليمية باستخدام كلمات مثل 'صورة' أو 'مخطط' أو 'رسم'."
+        "fr": "🌊 **Bonjour ! Je suis Tsunami Guard.** Posez-moi vos questions sur les tsunamis : définition, causes, conséquences, ou comment réagir. Utilisez des mots-clés pour des réponses précises !",
+        "en": "🌊 **Hello! I'm Tsunami Guard.** Ask me your questions about tsunamis: definition, causes, consequences, or how to react. Use keywords for precise answers!",
+        "ar": "🌊 **مرحبًا! أنا حارس التسونامي.** اسألني أسئلتك عن التسونامي: التعريف، الأسباب، العواقب، أو كيفية التفاعل. استخدم الكلمات المفتاحية لإجابات دقيقة!"
     }
     st.session_state.messages = [
-        {"role": "assistant", "content": welcome_messages[current_lang], "image_data": None, "category": None}
+        {"role": "assistant", "content": welcome_messages[current_lang], "image_data": None}
     ]
 
 # Affichage de l'historique
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
-        display_text_with_direction(message["content"], current_lang)
-        
+        display_text(message["content"], current_lang)
         if message.get("image_data"):
             captions = {
-                "definition": {"fr": "Diagramme explicatif du tsunami", "en": "Tsunami explanatory diagram", "ar": "مخطط توضيحي للتسونامي"},
-                "causes": {"fr": "Illustration des causes du tsunami", "en": "Tsunami causes illustration", "ar": "رسم توضيحي لأسباب التسونامي"},
-                "consequences": {"fr": "Impacts et conséquences du tsunami", "en": "Tsunami impacts and consequences", "ar": "تأثيرات وعواقب التسونامي"},
-                "safety": {"fr": "Règles de sécurité tsunami", "en": "Tsunami safety rules", "ar": "قواعد سلامة التسونامي"}
+                "definition": {"fr": "Phénomène tsunami", "en": "Tsunami phenomenon", "ar": "ظاهرة التسونامي"},
+                "causes": {"fr": "Origines du tsunami", "en": "Tsunami origins", "ar": "مصادر التسونامي"},
+                "consequences": {"fr": "Impacts du tsunami", "en": "Tsunami impacts", "ar": "آثار التسونامي"},
+                "reaction": {"fr": "Guide de survie", "en": "Survival guide", "ar": "دليل النجاة"}
             }
-            
-            caption = captions.get(message.get("category", ""), {}).get(current_lang, "Illustration éducative")
-            display_base64_image(message["image_data"], caption)
+            caption = captions.get(message.get("category", ""), {}).get(current_lang, "Illustration")
+            display_image(message["image_data"], caption)
 
-# Gestion des questions automatiques
+# Gestion des questions
 if "auto_question" in st.session_state:
     prompt = st.session_state.auto_question
     del st.session_state.auto_question
@@ -661,20 +623,18 @@ else:
     prompt = None
 
 # Input utilisateur
-if prompt or (user_input := st.chat_input("💬 Tapez votre question ou 'image' pour générer...")):
+if prompt or (user_input := st.chat_input("💬 Posez votre question...")):
     
     if not prompt:
         prompt = user_input
     
     # Ajout du message utilisateur
-    st.session_state.messages.append({"role": "user", "content": prompt, "image_data": None, "category": None})
+    st.session_state.messages.append({"role": "user", "content": prompt, "image_data": None})
     
-    # Simulation de chargement
-    with st.spinner("🎨 Génération de l'image et de la réponse..."):
-        time.sleep(0.5)
-        
-        # Recherche intelligente
-        response, image_data, category = find_best_response(prompt, current_lang)
+    # Génération de la réponse
+    with st.spinner("🔍 Recherche en cours..."):
+        time.sleep(0.3)
+        response, image_data, category = find_response(prompt, current_lang)
         
         # Ajout de la réponse
         st.session_state.messages.append({
@@ -684,20 +644,6 @@ if prompt or (user_input := st.chat_input("💬 Tapez votre question ou 'image' 
             "category": category
         })
         
-        # Rechargement
         st.rerun()
 
 st.markdown("</div>", unsafe_allow_html=True)
-
-# Footer informatif
-st.markdown("---")
-col1, col2, col3 = st.columns(3)
-with col1:
-    st.markdown("**🎯 Mots-clés Images**")
-    st.markdown("image • diagramme • illustration • schéma")
-with col2:
-    st.markdown("**🌍 Multilingue**") 
-    st.markdown("Français • English • العربية")
-with col3:
-    st.markdown("**🖼️ Génération auto**")
-    st.markdown("Images éducatives • Temps réel")
