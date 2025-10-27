@@ -981,7 +981,7 @@ st.markdown('<div class="main-header">🌊 Expert Tsunami</div>', unsafe_allow_h
 with st.sidebar:
     st.markdown("### 🌍 Langue")
     selected_language = st.radio("", list(LANGUAGES.keys()), label_visibility="collapsed")
-    current_lang = LANGUAGES[selected_lang]
+    current_lang = LANGUAGES[selected_language]  # CORRECTION ICI : selected_language au lieu de selected_lang
     
     # Questions par catégorie
     categories = {
