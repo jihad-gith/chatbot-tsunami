@@ -1586,9 +1586,9 @@ A **tsunami** (Japanese for "harbor wave") is a series of extremely long ocean w
     
     "pays_affectes_tsunamis": {
         "keywords": {
-            "fr": ["pays affectés", "différents pays", "pays touchés", "régions affectées"],
-            "en": ["affected countries", "different countries", "countries affected", "affected regions"],
-            "ar": ["دول متضررة", "دول مختلفة", "دول تأثرت", "مناطق متضررة"]
+            "fr": ["pays affectés", "différents pays", "pays touchés", "régions affectées", "comment différents pays", "pays célèbres"],
+            "en": ["affected countries", "different countries", "countries affected", "affected regions", "how different countries", "famous countries"],
+            "ar": ["دول متضررة", "دول مختلفة", "دول تأثرت", "مناطق متضررة", "كيف دول مختلفة", "دول مشهورة"]
         },
         "responses": {
             "fr": """
@@ -1740,40 +1740,92 @@ A **tsunami** (Japanese for "harbor wave") is a series of extremely long ocean w
 
 def find_response(user_input, language):
     """Trouve la réponse la plus pertinente avec reconnaissance améliorée"""
-    user_input_lower = user_input.lower()
+    user_input_lower = user_input.lower().strip()
     
-    # Recherche améliorée - vérifie chaque mot-clé individuellement
+    # Nettoyer la question
+    question_words = {
+        "fr": ["quel", "quelle", "quels", "quelles", "comment", "pourquoi", "qu'est-ce", "que", "est-ce que"],
+        "en": ["what", "which", "how", "why", "when", "where", "who"],
+        "ar": ["ما", "كيف", "لماذا", "متى", "أين", "من"]
+    }
+    
+    # Supprimer les mots de question pour une meilleure correspondance
+    clean_input = user_input_lower
+    for word in question_words.get(language, []):
+        clean_input = clean_input.replace(word, "")
+    clean_input = clean_input.strip()
+    
+    # Recherche améliorée avec pondération
     best_match = None
     best_score = 0
     
     for category, data in KNOWLEDGE_BASE.items():
         score = 0
-        for keyword in data["keywords"][language]:
+        keywords = data["keywords"][language]
+        
+        # Vérifier chaque mot-clé
+        for keyword in keywords:
             if keyword in user_input_lower:
-                score += 1
+                # Pondération selon la longueur du mot-clé (les mots-clés plus longs sont plus spécifiques)
+                score += len(keyword) * 2
+            elif keyword in clean_input:
+                score += len(keyword)
+        
+        # Bonus pour les correspondances exactes
+        for keyword in keywords:
+            if user_input_lower == keyword:
+                score += 50  # Bonus important pour correspondance exacte
         
         if score > best_score:
             best_score = score
             best_match = category
     
-    # Si on a trouvé une bonne correspondance
-    if best_score >= 1:
+    # Seuil minimum pour éviter les mauvaises correspondances
+    if best_score >= 3:  # Seuil augmenté pour plus de précision
         return KNOWLEDGE_BASE[best_match]["responses"][language]
     
-    # Recherche de secours avec mots individuels
-    for category, data in KNOWLEDGE_BASE.items():
-        for keyword in data["keywords"][language]:
-            # Vérifie si des mots individuels correspondent
-            words = user_input_lower.split()
-            for word in words:
-                if word in keyword or keyword in word:
-                    return data["responses"][language]
+    # Recherche de secours avec similarité partielle
+    if best_score == 0:
+        for category, data in KNOWLEDGE_BASE.items():
+            for keyword in data["keywords"][language]:
+                # Vérifier si des parties de mots correspondent
+                words = user_input_lower.split()
+                for word in words:
+                    if len(word) > 3 and (word in keyword or keyword in word):
+                        return data["responses"][language]
     
     # Réponse par défaut
     default_responses = {
-        "fr": "🤖 **Expert Tsunami** - Je n'ai pas compris votre question. Essayez avec : définition, causes, séisme, volcan, conséquences, ou signes avant-coureurs.",
-        "en": "🤖 **Tsunami Expert** - I didn't understand your question. Try with: definition, causes, earthquake, volcano, consequences, or warning signs.",
-        "ar": "🤖 **خبير التسونامي** - لم أفهم سؤالك. جرب مع: تعريف، أسباب، زلزال، بركان، عواقب، أو علامات إنذار."
+        "fr": """
+🤖 **Expert Tsunami** - Je n'ai pas trouvé de réponse spécifique à votre question. 
+
+**Voici les sujets que je peux traiter :**
+- 📚 **Définition et causes** : définition, différences avec les vagues normales, causes principales
+- 💥 **Conséquences** : impacts humains, économiques, environnementaux
+- 📜 **Exemples historiques** : tsunamis de 2004, 2011, pays affectés
+
+Utilisez les boutons sur le côté ou reformulez votre question !
+        """,
+        "en": """
+🤖 **Tsunami Expert** - I didn't find a specific answer to your question.
+
+**Here are the topics I can cover:**
+- 📚 **Definition and causes**: definition, differences with normal waves, main causes
+- 💥 **Consequences**: human, economic, environmental impacts  
+- 📜 **Historical examples**: 2004 tsunami, 2011 tsunami, affected countries
+
+Use the buttons on the side or rephrase your question!
+        """,
+        "ar": """
+🤖 **خبير التسونامي** - لم أجد إجابة محددة لسؤالك.
+
+**إليك المواضيع التي يمكنني معالجتها:**
+- 📚 **التعريف والأسباب**: تعريف، الفروق مع الأمواج العادية، الأسباب الرئيسية
+- 💥 **العواقب**: الآثار البشرية، الاقتصادية، البيئية
+- 📜 **أمثلة تاريخية**: تسونامي 2004، 2011، الدول المتضررة
+
+استخدم الأزرار على الجانب أو أعد صياغة سؤالك!
+        """
     }
     return default_responses[language]
 
@@ -1946,8 +1998,9 @@ if prompt or (user_input := st.chat_input(placeholder_texts[current_lang])):
     # Ajout du message utilisateur
     st.session_state.messages.append({"role": "user", "content": prompt})
     
-    # Génération de la réponse
-    response = find_response(prompt, current_lang)
+    with st.spinner("🔍 Recherche d'une réponse..."):
+        # Génération de la réponse
+        response = find_response(prompt, current_lang)
     
     # Ajout de la réponse
     st.session_state.messages.append({
