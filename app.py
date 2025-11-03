@@ -93,9 +93,9 @@ KNOWLEDGE_BASE = {
     # ========== DÉFINITION ET CAUSES ==========
     "definition_tsunami": {
         "keywords": {
-            "fr": ["définition", "qu'est-ce", "c'est quoi", "explique", "définir", "quoi", "tsunami"],
-            "en": ["definition", "what is", "explain", "define", "what", "tsunami"],
-            "ar": ["تعريف", "ما هو", "شرح", "ماهو", "ما", "تسونامي"]
+            "fr": ["définition tsunami", "qu'est-ce qu'un tsunami", "c'est quoi un tsunami", "expliquer tsunami"],
+            "en": ["tsunami definition", "what is tsunami", "explain tsunami"],
+            "ar": ["تعريف تسونامي", "ما هو تسونامي", "شرح تسونامي"]
         },
         "responses": {
             "fr": """
@@ -142,9 +142,9 @@ A tsunami is a series of giant waves caused by sudden displacement of water, oft
     
     "difference_vague_tsunami": {
         "keywords": {
-            "fr": ["différence", "comparaison", "vague normale", "vague vs tsunami", "différent"],
-            "en": ["difference", "compare", "normal wave", "wave vs tsunami", "different"],
-            "ar": ["فرق", "مقارنة", "موجة عادية", "موجة مقابل تسونامي", "مختلف"]
+            "fr": ["différence vague tsunami", "comparaison vague tsunami", "vague normale tsunami"],
+            "en": ["difference wave tsunami", "compare wave tsunami", "normal wave tsunami"],
+            "ar": ["فرق موجة تسونامي", "مقارنة موجة تسونامي", "موجة عادية تسونامي"]
         },
         "responses": {
             "fr": """
@@ -194,9 +194,9 @@ A tsunami is a series of giant waves caused by sudden displacement of water, oft
     
     "causes_principales": {
         "keywords": {
-            "fr": ["causes", "origines", "pourquoi", "provoque", "cause tsunami", "origine tsunami"],
-            "en": ["causes", "origins", "why", "cause", "tsunami causes", "tsunami origins"],
-            "ar": ["أسباب", "مصادر", "لماذا", "يتسبب", "أسباب تسونامي", "مصادر تسونامي"]
+            "fr": ["causes tsunami", "origines tsunami", "pourquoi tsunami"],
+            "en": ["tsunami causes", "tsunami origins", "why tsunami"],
+            "ar": ["أسباب تسونامي", "مصادر تسونامي", "لماذا تسونامي"]
         },
         "responses": {
             "fr": """
@@ -273,9 +273,9 @@ A tsunami is a series of giant waves caused by sudden displacement of water, oft
     
     "seisme_tsunami": {
         "keywords": {
-            "fr": ["séisme", "tremblement de terre", "comment séisme", "mécanisme séisme", "séisme provoque"],
-            "en": ["earthquake", "how earthquake", "mechanism earthquake", "earthquake causes"],
-            "ar": ["زلزال", "كيف زلزال", "آلية زلزال", "زلزال يتسبب"]
+            "fr": ["séisme provoque tsunami", "comment séisme tsunami", "mécanisme séisme tsunami"],
+            "en": ["earthquake causes tsunami", "how earthquake tsunami", "mechanism earthquake tsunami"],
+            "ar": ["زلزال يتسبب تسونامي", "كيف زلزال تسونامي", "آلية زلزال تسونامي"]
         },
         "responses": {
             "fr": """
@@ -364,9 +364,9 @@ A tsunami is a series of giant waves caused by sudden displacement of water, oft
     
     "volcan_glissement_tsunami": {
         "keywords": {
-            "fr": ["volcan", "volcanique", "glissement", "éruption", "volcan tsunami", "glissement terrain"],
-            "en": ["volcano", "volcanic", "landslide", "eruption", "volcano tsunami", "landslide tsunami"],
-            "ar": ["بركان", "بركاني", "انهيار", "ثوران", "بركان تسونامي", "انهيار أرضي"]
+            "fr": ["volcan tsunami", "glissement terrain tsunami", "éruption tsunami"],
+            "en": ["volcano tsunami", "landslide tsunami", "eruption tsunami"],
+            "ar": ["بركان تسونامي", "انهيار أرضي تسونامي", "ثوران تسونامي"]
         },
         "responses": {
             "fr": """
@@ -461,9 +461,9 @@ A tsunami is a series of giant waves caused by sudden displacement of water, oft
     
     "signes_precurseurs": {
         "keywords": {
-            "fr": ["signes", "précurseurs", "alerte", "avant tsunami", "signes avant", "reconnaître"],
-            "en": ["signs", "warning", "alert", "before tsunami", "warning signs", "recognize"],
-            "ar": ["علامات", "إنذار", "قبل تسونامي", "علامات إنذار", "يتعرف"]
+            "fr": ["signes précurseurs tsunami", "avant tsunami", "signes avant tsunami"],
+            "en": ["tsunami warning signs", "before tsunami", "tsunami signs"],
+            "ar": ["علامات إنذار تسونامي", "قبل تسونامي", "علامات تسونامي"]
         },
         "responses": {
             "fr": """
@@ -547,9 +547,9 @@ A tsunami is a series of giant waves caused by sudden displacement of water, oft
     # ========== CONSÉQUENCES ==========
     "consequences_humaines": {
         "keywords": {
-            "fr": ["conséquences humaines", "victimes", "morts", "décès", "impact humain"],
-            "en": ["human consequences", "victims", "deaths", "human impact"],
-            "ar": ["عواقب بشرية", "ضحايا", "وفيات", "تأثير بشري"]
+            "fr": ["conséquences humaines tsunami", "victimes tsunami", "morts tsunami"],
+            "en": ["human consequences tsunami", "tsunami victims", "tsunami deaths"],
+            "ar": ["عواقب بشرية تسونامي", "ضحايا تسونامي", "وفيات تسونامي"]
         },
         "responses": {
             "fr": """
@@ -623,9 +623,9 @@ A tsunami is a series of giant waves caused by sudden displacement of water, oft
     
     "impacts_economiques": {
         "keywords": {
-            "fr": ["impacts économiques", "économie", "coûts", "dégâts économiques", "pertes économiques"],
-            "en": ["economic impacts", "economy", "costs", "economic damage", "economic losses"],
-            "ar": ["آثار اقتصادية", "اقتصاد", "تكاليف", "ضرر اقتصادي", "خسائر اقتصادية"]
+            "fr": ["impacts économiques tsunami", "économie tsunami", "coûts tsunami"],
+            "en": ["economic impacts tsunami", "tsunami economy", "tsunami costs"],
+            "ar": ["آثار اقتصادية تسونامي", "اقتصاد تسونامي", "تكاليف تسونامي"]
         },
         "responses": {
             "fr": """
@@ -690,9 +690,9 @@ A tsunami is a series of giant waves caused by sudden displacement of water, oft
     
     "impact_environnement": {
         "keywords": {
-            "fr": ["environnement", "biodiversité", "écologie", "impact environnemental", "faune", "flore"],
-            "en": ["environment", "biodiversity", "ecology", "environmental impact", "wildlife", "flora"],
-            "ar": ["بيئة", "تنوع حيوي", "بيئة", "تأثير بيئي", "حياة برية", "نباتات"]
+            "fr": ["impact environnemental tsunami", "environnement tsunami", "biodiversité tsunami"],
+            "en": ["environmental impact tsunami", "tsunami environment", "tsunami biodiversity"],
+            "ar": ["تأثير بيئي تسونامي", "بيئة تسونامي", "تنوع حيوي تسونامي"]
         },
         "responses": {
             "fr": """
@@ -781,9 +781,9 @@ A tsunami is a series of giant waves caused by sudden displacement of water, oft
     
     "exemples_importants": {
         "keywords": {
-            "fr": ["exemples", "historiques", "célèbres", "2004", "2011", "Japon", "Indonésie", "Chili"],
-            "en": ["examples", "historical", "famous", "2004", "2011", "Japan", "Indonesia", "Chile"],
-            "ar": ["أمثلة", "تاريخية", "مشهورة", "2004", "2011", "اليابان", "إندونيسيا", "تشيلي"]
+            "fr": ["exemples tsunami", "tsunami 2004", "tsunami japon 2011", "tsunami historique"],
+            "en": ["tsunami examples", "2004 tsunami", "japan 2011 tsunami", "historical tsunami"],
+            "ar": ["أمثلة تسونامي", "تسونامي 2004", "تسونامي اليابان 2011", "تسونامي تاريخي"]
         },
         "responses": {
             "fr": """
@@ -826,7 +826,7 @@ A tsunami is a series of giant waves caused by sudden displacement of water, oft
 - **Death toll**: 230,000+
 - **Particularity**: One of the deadliest tsunamis in history
 
-**2. JAPAN 2011 🇯🇵**
+**2. JAPON 2011 🇯🇵**
 - **Cause**: Magnitude 9.0 earthquake
 - **Wave height**: 10+ meters
 - **Death toll**: 18,000+
@@ -884,9 +884,9 @@ A tsunami is a series of giant waves caused by sudden displacement of water, oft
     
     "effets_long_terme": {
         "keywords": {
-            "fr": ["effets long terme", "long terme", "conséquences durables", "après tsunami", "reconstruction"],
-            "en": ["long term effects", "long term", "lasting consequences", "after tsunami", "reconstruction"],
-            "ar": ["آثار طويلة المدى", "طويل المدى", "عواقب دائمة", "بعد تسونامي", "إعادة إعمار"]
+            "fr": ["effets long terme tsunami", "conséquences durables tsunami", "après tsunami"],
+            "en": ["long term effects tsunami", "lasting consequences tsunami", "after tsunami"],
+            "ar": ["آثار طويلة المدى تسونامي", "عواقب دائمة تسونامي", "بعد تسونامي"]
         },
         "responses": {
             "fr": """
@@ -990,9 +990,9 @@ A tsunami is a series of giant waves caused by sudden displacement of water, oft
     
     "mortalite_moyenne": {
         "keywords": {
-            "fr": ["mortalité", "moyenne", "combien meurent", "statistiques morts", "taux mortalité"],
-            "en": ["mortality", "average", "how many die", "death statistics", "mortality rate"],
-            "ar": ["وفيات", "متوسط", "كم يموت", "إحصائيات وفيات", "معدل وفيات"]
+            "fr": ["mortalité tsunami", "combien morts tsunami", "statistiques mortalité tsunami"],
+            "en": ["tsunami mortality", "how many tsunami deaths", "tsunami death statistics"],
+            "ar": ["وفيات تسونامي", "كم وفاة تسونامي", "إحصائيات وفيات تسونامي"]
         },
         "responses": {
             "fr": """
@@ -1081,40 +1081,84 @@ A tsunami is a series of giant waves caused by sudden displacement of water, oft
 
 def find_response(user_input, language):
     """Trouve la réponse la plus pertinente avec reconnaissance améliorée"""
-    user_input_lower = user_input.lower()
+    user_input_lower = user_input.lower().strip()
     
-    # Recherche améliorée - vérifie chaque mot-clé individuellement
+    # Nettoyer l'input
+    words = user_input_lower.split()
+    
+    # Recherche exacte d'abord
     best_match = None
     best_score = 0
     
     for category, data in KNOWLEDGE_BASE.items():
         score = 0
-        for keyword in data["keywords"][language]:
+        keywords = data["keywords"][language]
+        
+        # Vérifier chaque mot-clé
+        for keyword in keywords:
+            # Si le mot-clé est une phrase complète dans l'input
             if keyword in user_input_lower:
-                score += 1
+                score += 3  # Score élevé pour correspondance exacte
+            # Sinon vérifier les mots individuels
+            else:
+                keyword_words = keyword.split()
+                for kw in keyword_words:
+                    if kw in words:
+                        score += 1
         
         if score > best_score:
             best_score = score
             best_match = category
     
-    # Si on a trouvé une bonne correspondance
+    # Seuil minimum pour éviter les mauvaises correspondances
+    if best_score >= 2:
+        return KNOWLEDGE_BASE[best_match]["responses"][language]
+    
+    # Recherche de secours avec correspondance partielle
     if best_score >= 1:
         return KNOWLEDGE_BASE[best_match]["responses"][language]
     
-    # Recherche de secours avec mots individuels
-    for category, data in KNOWLEDGE_BASE.items():
-        for keyword in data["keywords"][language]:
-            # Vérifie si des mots individuels correspondent
-            words = user_input_lower.split()
-            for word in words:
-                if word in keyword or keyword in word:
-                    return data["responses"][language]
-    
     # Réponse par défaut
     default_responses = {
-        "fr": "🤖 **Expert Tsunami** - Je n'ai pas compris votre question. Essayez avec : définition, causes, séisme, volcan, conséquences, ou signes avant-coureurs.",
-        "en": "🤖 **Tsunami Expert** - I didn't understand your question. Try with: definition, causes, earthquake, volcano, consequences, or warning signs.",
-        "ar": "🤖 **خبير التسونامي** - لم أفهم سؤالك. جرب مع: تعريف، أسباب، زلزال، بركان، عواقب، أو علامات إنذار."
+        "fr": """
+🤖 **Expert Tsunami** - Je n'ai pas bien compris votre question. 
+
+Voici ce que je peux vous expliquer :
+• **Définition** : Qu'est-ce qu'un tsunami ?
+• **Causes** : Séismes, volcans, glissements
+• **Différence** : Tsunami vs vague normale  
+• **Signes** : Précurseurs d'un tsunami
+• **Conséquences** : Humaines, économiques, environnementales
+• **Exemples** : Tsunamis historiques importants
+
+Utilisez les boutons à gauche ou reformulez votre question !
+        """,
+        "en": """
+🤖 **Tsunami Expert** - I didn't fully understand your question.
+
+Here's what I can explain:
+• **Definition**: What is a tsunami?
+• **Causes**: Earthquakes, volcanoes, landslides
+• **Difference**: Tsunami vs normal wave
+• **Warning signs**: Tsunami precursors
+• **Consequences**: Human, economic, environmental
+• **Examples**: Important historical tsunamis
+
+Use the buttons on the left or rephrase your question!
+        """,
+        "ar": """
+🤖 **خبير التسونامي** - لم أفهم سؤالك بالكامل.
+
+إليك ما يمكنني شرحه:
+• **التعريف**: ما هو التسونامي؟
+• **الأسباب**: زلازل، براكين، انهيارات
+• **الفرق**: تسونامي مقابل موجة عادية
+• **علامات الإنذار**: مؤشرات التسونامي
+• **العواقب**: بشرية، اقتصادية، بيئية
+• **أمثلة**: تسوناميات تاريخية مهمة
+
+استخدم الأزرار على اليسار أو أعد صياغة سؤالك!
+        """
     }
     return default_responses[language]
 
